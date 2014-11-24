@@ -2,15 +2,14 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 
 	var canvas;
 	var ctx;
-	var dx = 10;
-	var dy = 10;
+	var dx = 15;
+	var dy = 15;
 	var x = 200;
 	var y = 5;
-	var WIDTH = 482;
-	var HEIGHT = 482;
+	var WIDTH = 1000;
+	var HEIGHT = 1000;
 	var img = new Image();
 	var collision = 0;
-	var movement;
 
 
 	function rect(x,y,w,h) {
@@ -28,7 +27,7 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 	function init() {
 		canvas = document.getElementById("canvas");
 		ctx = canvas.getContext("2d");
-		img.src = "assets/maze.gif";
+		img.src = "assets/mazeone1000.gif";
 		return setInterval(draw, 10);
 	}
 
@@ -36,25 +35,7 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 
 	function moveSquare(tilt){
 
-		var sortable = [];
-
-		for (var angle in tilt) {
-			sortable.push([angle, tilt[angle]])
-		}
-
-		var sorted = sortable.sort(function(a, b){ return Math.abs(b[1]) - Math.abs(a[1])})
-		console.log(sorted);
-		var choice = sorted[0];
-		console.log(choice);
-
-		if (choice[0] === 'beta' && choice[1] < -10) movement = 'up';
-		if (choice[0] === 'beta' && choice[1] > 10) movement = 'down';
-		if (choice[0] === 'gamma' && choice[1] > 10) movement = 'right';
-		if (choice[0] === 'gamma' && choice[1] < -10 ) movement = 'left';
-
-		console.log(movement);
-
-		switch (movement) {
+		switch (tilt) {
 			case 'up':  /* Up arrow was pressed */
 			if (y - dy > 0){
 				y -= dy;

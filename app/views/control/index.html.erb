@@ -1,7 +1,31 @@
-<div ng-controller="TiltCtrl">
-	
-	<h1>Tilt your phone mate</h1>
+<style type="text/css" media="screen">
+	span.arrow, span.arrow.chosen {
+		color: green;
+		opacity: 0.1;
+		font-size: 300px;
+	}
 
-	{{gyro}}
+	span.arrow.chosen {
+		opacity: 1;
+	}
+
+</style>
+
+<div class="container" ng-controller="TiltCtrl">
+	
+	<div class="arrows col-md-12">
+		<div class="row text-center">
+			<span class="glyphicon glyphicon-arrow-up arrow" ng-class="{'chosen': movement == 'up' }"></span>
+		</div>
+		<div class="row text-center">
+			<span class="glyphicon glyphicon-arrow-left pull-left arrow" ng-class="{'chosen': movement == 'left' }"></span>
+			<span class="glyphicon glyphicon-arrow-right pull-right arrow" ng-class="{'chosen': movement == 'right' }"></span>
+		</div>
+		<div class="row text-center">
+			<span class="glyphicon glyphicon-arrow-down arrow bottom" ng-class="{'chosen': movement == 'down' }"></span>
+		</div>
+
+	</div>
+
 
 </div>

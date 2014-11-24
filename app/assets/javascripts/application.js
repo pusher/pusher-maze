@@ -11,14 +11,12 @@
 // about supported directives.
 //
 //= require jquery
+//= require bootstrap-sprockets
 //= require jquery_ujs
 //= require gyro.min
 //= require angular
 //= require pusher.min
 //= require pusher-angular.min
-
-
-// angular.module('Maze', ['pusher-angular']);
 
 //= require_tree .
 
