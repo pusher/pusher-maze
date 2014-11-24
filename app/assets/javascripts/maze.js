@@ -10,6 +10,8 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 	var HEIGHT = 482;
 	var img = new Image();
 	var collision = 0;
+	var movement;
+
 
 	function rect(x,y,w,h) {
 		ctx.beginPath();
@@ -42,10 +44,8 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 
 		var sorted = sortable.sort(function(a, b){ return Math.abs(b[1]) - Math.abs(a[1])})
 		console.log(sorted);
-		// console.log(sorted);
 		var choice = sorted[0];
 		console.log(choice);
-		var movement;
 
 		if (choice[0] === 'beta' && choice[1] < -10) movement = 'up';
 		if (choice[0] === 'beta' && choice[1] > 10) movement = 'down';
@@ -126,11 +126,7 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 
 	var client = new Pusher('77f6df16945f47c63a1f');
 	var pusher = $pusher(client);
-
 	var tiltChannel = pusher.subscribe('private-tilt-channel');
-
-
-	elem = document.getElementById('test');
 
 	tiltChannel.bind('client-tilt', function(tilt){
 		moveSquare(tilt);
