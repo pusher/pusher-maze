@@ -2,8 +2,8 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 
 	var canvas;
 	var ctx;
-	var dx = 5;
-	var dy = 5;
+	var dx = 10;
+	var dy = 10;
 	var x = 200;
 	var y = 5;
 	var WIDTH = 482;
