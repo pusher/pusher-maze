@@ -7,6 +7,8 @@ angular.module('Maze', ['pusher-angular']).controller('TiltCtrl', ['$scope', '$p
 	var movement;
 	$scope.movement = null;
 
+	$scope.debugMode = false;
+
 	function findMovementFrom(tilt){
 		var sortable = [];
 
@@ -26,11 +28,18 @@ angular.module('Maze', ['pusher-angular']).controller('TiltCtrl', ['$scope', '$p
 		$scope.$apply(function(){$scope.movement = movement})
 	}
 
+
+	$scope.debugTrigger = function(direction){
+		tiltChannel.trigger('client-tilt', direction);
+	}
+
 	gyro.startTracking(function(o) {
+		if ($scope.debugMode) return;
 		var o = {beta: o.beta, gamma: o.gamma}
 		findMovementFrom(o);
 		if ($scope.movement) tiltChannel.trigger('client-tilt', $scope.movement);
 
 	});
+
 
 }]);

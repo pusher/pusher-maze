@@ -15,14 +15,14 @@
 	
 	<div class="arrows col-md-12">
 		<div class="row text-center">
-			<span class="glyphicon glyphicon-arrow-up arrow" ng-class="{'chosen': movement == 'up' }"></span>
+			<span class="glyphicon glyphicon-arrow-up arrow" ng-class="{'chosen': movement == 'up' }" ng-click="debugMode && debugTrigger('up')"></span>
 		</div>
 		<div class="row text-center">
-			<span class="glyphicon glyphicon-arrow-left pull-left arrow" ng-class="{'chosen': movement == 'left' }"></span>
-			<span class="glyphicon glyphicon-arrow-right pull-right arrow" ng-class="{'chosen': movement == 'right' }"></span>
+			<span class="glyphicon glyphicon-arrow-left pull-left arrow" ng-class="{'chosen': movement == 'left' }" ng-click="debugMode && debugTrigger('left')"></span>
+			<span class="glyphicon glyphicon-arrow-right pull-right arrow" ng-class="{'chosen': movement == 'right' }" ng-click=" debugMode && debugTrigger('right')"></span>
 		</div>
 		<div class="row text-center">
-			<span class="glyphicon glyphicon-arrow-down arrow bottom" ng-class="{'chosen': movement == 'down' }"></span>
+			<span class="glyphicon glyphicon-arrow-down arrow bottom" ng-class="{'chosen': movement == 'down' }" ng-click="debugMode && debugTrigger('down')"></span>
 		</div>
 
 	</div>

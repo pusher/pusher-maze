@@ -31,57 +31,26 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 		return setInterval(draw, 10);
 	}
 
-	function moveSquare(tilt){
 
-		switch (tilt) {
-			case 'up':  /* Up arrow was pressed */
-			if (y - dy > 0){
-				y -= dy;
-				clear();
-				checkcollision();
-				if (collision == 1){
-					y += dy;
-					collision = 0;
-				}
+	function controlSquare(direction){
+		var startValue = (direction === "up" || direction === "down") ? "y" : "x"
+		var operator = (direction === "up" || direction === "left") ? "-" : "+"
+		var inverseOperator = (operator === "-") ? "+" : "-"
+		var boundLimit = (direction === "down") ? HEIGHT : (direction === "right") ? WIDTH : 0 
+		var boundMovement = (operator === "-") ? ">" : "<"
+		var withinBounds = eval(startValue + " " + operator + " " + "d" + startValue + " " + boundMovement + " " + boundLimit)
+		
+		if (withinBounds) {
+			eval(startValue + " " + operator + "=" + " " + "d" + startValue);
+			clear();
+			checkcollision();
+			if (collision == 1){
+				eval(startValue + " " + inverseOperator + "=" + " " + "d" + startValue);
+				collision = 0
 			}
-
-			break;
-			case 'down':  /* Down arrow was pressed */
-			if (y + dy < HEIGHT ){
-				y += dy;
-				clear();
-				checkcollision();
-				if (collision == 1){
-					y -= dy;
-					collision = 0;
-				}
-			}
-
-			break;
-			case 'left':  /* Left arrow was pressed */
-			if (x - dx > 0){
-				x -= dx;
-				clear();
-				checkcollision();
-				if (collision == 1){
-					x += dx;
-					collision = 0;
-				}
-			}
-			break;
-			case 'right':  /* Right arrow was pressed */
-			if ((x + dx < WIDTH)){
-				x += dx;
-				clear();
-				checkcollision();
-				if (collision == 1){
-					x -= dx;
-					collision = 0;
-				}
-			}
-			break;
 		}
-	}
+
+	};
 
 	function checkcollision() {
 		var imgd = ctx.getImageData(x, y, 15, 15);
@@ -108,7 +77,7 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 	var tiltChannel = pusher.subscribe('private-tilt-channel');
 
 	tiltChannel.bind('client-tilt', function(tilt){
-		moveSquare(tilt);
+		controlSquare(tilt);
 	});
 
 
