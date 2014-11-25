@@ -4,7 +4,6 @@ angular.module('Maze', ['pusher-angular']).controller('TiltCtrl', ['$scope', '$p
 	var pusher = $pusher(client);
 	var tiltChannel = pusher.subscribe('private-tilt-channel');
 
-
 	var movement;
 	$scope.movement = null;
 

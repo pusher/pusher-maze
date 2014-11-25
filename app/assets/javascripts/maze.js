@@ -4,7 +4,7 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 	var ctx;
 	var dx = 15;
 	var dy = 15;
-	var x = 200;
+	var x = 425;
 	var y = 5;
 	var WIDTH = 1000;
 	var HEIGHT = 1000;
@@ -30,8 +30,6 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 		img.src = "assets/mazeone1000.gif";
 		return setInterval(draw, 10);
 	}
-
-
 
 	function moveSquare(tilt){
 
