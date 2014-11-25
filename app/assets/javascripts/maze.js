@@ -11,7 +11,6 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 	var img = new Image();
 	var collision = 0;
 
-
 	function rect(x,y,w,h) {
 		ctx.beginPath();
 		ctx.rect(x,y,w,h);
@@ -31,25 +30,26 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 		return setInterval(draw, 10);
 	}
 
-
 	function controlSquare(direction){
 		var startValue = (direction === "up" || direction === "down") ? "y" : "x"
 		var operator = (direction === "up" || direction === "left") ? "-" : "+"
 		var inverseOperator = (operator === "-") ? "+" : "-"
 		var boundLimit = (direction === "down") ? HEIGHT : (direction === "right") ? WIDTH : 0 
 		var boundMovement = (operator === "-") ? ">" : "<"
-		var withinBounds = eval(startValue + " " + operator + " " + "d" + startValue + " " + boundMovement + " " + boundLimit)
-		
+
+		var withinBounds = eval(startValue + " " + operator + " " + "d" + startValue + " " + boundMovement + " " + boundLimit);
+		var move = startValue + " " + operator + "=" + " " + "d" + startValue;
+		var moveBack = startValue + " " + inverseOperator + "=" + " " + "d" + startValue;
+
 		if (withinBounds) {
-			eval(startValue + " " + operator + "=" + " " + "d" + startValue);
+			eval(move);
 			clear();
 			checkcollision();
 			if (collision == 1){
-				eval(startValue + " " + inverseOperator + "=" + " " + "d" + startValue);
+				eval(moveBack);
 				collision = 0
 			}
 		}
-
 	};
 
 	function checkcollision() {
@@ -68,9 +68,7 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 		rect(x, y, 15,15);
 	}
 
-
 	init();
-
 
 	var client = new Pusher('77f6df16945f47c63a1f');
 	var pusher = $pusher(client);
@@ -79,6 +77,5 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 	tiltChannel.bind('client-tilt', function(tilt){
 		controlSquare(tilt);
 	});
-
 
 }]);
