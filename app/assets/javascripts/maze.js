@@ -42,20 +42,12 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 		}
 	};
 
-
 	function checkcollision(x, y) {
 		var imgd = ctx.getImageData(x, y, 15, 15);
 		var pix = imgd.data;
 		for (var i = 0; n = pix.length, i < n; i += 4) {
 			if (pix[i] == 0) { return true }
 		}
-	}
-
-	function draw(x, y) {
-		clearCanvas();
-		drawMaze();
-		ctx.fillStyle = "purple";
-		rect(x, y, 15,15);
 	}
 
 	function Square(){
@@ -67,19 +59,22 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 
 	Square.prototype.draw = function(){
 		var self = this;
-		setInterval(function(){draw(self.x, self.y)}, 1000);
-}
+		setInterval(function(){
+			clearCanvas();
+			drawMaze();
+			ctx.fillStyle = "purple";
+			rect(self.x, self.y, 15,15);
+		}, 10);
+	}
 
 	var square = new Square();
 	square.draw();
-
 
 	var client = new Pusher('77f6df16945f47c63a1f');
 	var pusher = $pusher(client);
 	var tiltChannel = pusher.subscribe('presence-tilt-channel');
 
 	tiltChannel.bind('client-tilt', function(tilt){
-		// controlSquare(tilt);
 		square.move(tilt);
 	});
 
