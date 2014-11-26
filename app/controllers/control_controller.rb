@@ -8,6 +8,7 @@ class ControlController < ApplicationController
 
 	def colour_chosen
 		session[:colour] = params[:colour]
+		Pusher['colour-channel'].trigger('colour_taken', {colour: session[:colour]})
 		redirect_to '/'
 	end
 

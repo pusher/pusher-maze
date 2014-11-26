@@ -4,7 +4,14 @@ angular.module('Maze').controller('TiltCtrl', ['$scope', '$pusher', '$http', fun
 	var pusher = $pusher(client);
 	var tiltChannel = pusher.subscribe('presence-tilt-channel');
 
-	console.log(tiltChannel.members);
+	// console.log(tiltChannel.members);
+
+	// tiltChannel.trigger('client-new-player' {coliu})
+
+	tiltChannel.bind('pusher:subscription_succeeded', function(members){
+		console.log(members.count);
+	});
+
 
 	tiltChannel.bind('pusher:member_added', function(member){
 		console.log(member);
