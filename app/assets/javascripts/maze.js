@@ -33,11 +33,13 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 
 	// Defining the Square object
 
-	function Square(x, y){
+	function Square(x, y, colour){
 		this.dx = 15;
 		this.dy = 15;
 		this.x = x;
 		this.y = y;
+		this.colour = colour;
+		squares.push(this);
 	}
 
 	function draw (){
@@ -45,7 +47,7 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 		drawMaze();
 
 		_.each(squares, function(square){
-			ctx.fillStyle = "purple";
+			ctx.fillStyle = square.colour;
 			rect(square.x, square.y, 15,15);
 		});
 
@@ -68,15 +70,9 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 		}
 	};
 
-	var squareOne = new Square(425, 5);
+	var squareOne = new Square(425, 5, "blue");
 
-
-	squares.push(squareOne);
-
-
-	var squareTwo = new Square(450, 5);
-	squares.push(squareTwo);
-	// squareTwo.draw();
+	var squareTwo = new Square(450, 5, "red");
 
 	setInterval(draw, 1000)
 

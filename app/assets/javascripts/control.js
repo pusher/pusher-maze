@@ -1,4 +1,4 @@
-angular.module('Maze', ['pusher-angular']).controller('TiltCtrl', ['$scope', '$pusher', '$http', function($scope, $pusher, $http){
+angular.module('Maze').controller('TiltCtrl', ['$scope', '$pusher', '$http', function($scope, $pusher, $http){
 	
 	var client = new Pusher('77f6df16945f47c63a1f');
 	var pusher = $pusher(client);
