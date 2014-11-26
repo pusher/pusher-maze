@@ -2,19 +2,23 @@ angular.module('Maze', ['pusher-angular']).controller('TiltCtrl', ['$scope', '$p
 	
 	var client = new Pusher('77f6df16945f47c63a1f');
 	var pusher = $pusher(client);
-	var tiltChannel = pusher.subscribe('private-tilt-channel');
+	var tiltChannel = pusher.subscribe('presence-tilt-channel');
+
+	console.log(tiltChannel.members);
+
+	tiltChannel.bind('pusher:member_added', function(member){
+		console.log(member);
+	});
 
 	var movement;
 	$scope.movement = null;
 
-	$scope.debugMode = false;
+	$scope.debugMode = true;
 
 	function findMovementFrom(tilt){
 		var sortable = [];
 
-		for (var angle in tilt) {
-			sortable.push([angle, tilt[angle]])
-		}
+		for (var angle in tilt) { sortable.push([angle, tilt[angle]]) }
 
 		var sorted = sortable.sort(function(a, b){ return Math.abs(b[1]) - Math.abs(a[1])})
 		var choice = sorted[0];
@@ -24,10 +28,8 @@ angular.module('Maze', ['pusher-angular']).controller('TiltCtrl', ['$scope', '$p
 		if (choice[0] === 'gamma' && choice[1] > 10) movement = 'right';
 		if (choice[0] === 'gamma' && choice[1] < -10 ) movement = 'left';
 
-		// $scope.movement = movement
 		$scope.$apply(function(){$scope.movement = movement})
 	}
-
 
 	$scope.debugTrigger = function(direction){
 		tiltChannel.trigger('client-tilt', direction);
@@ -38,7 +40,6 @@ angular.module('Maze', ['pusher-angular']).controller('TiltCtrl', ['$scope', '$p
 		var o = {beta: o.beta, gamma: o.gamma}
 		findMovementFrom(o);
 		if ($scope.movement) tiltChannel.trigger('client-tilt', $scope.movement);
-
 	});
 
 

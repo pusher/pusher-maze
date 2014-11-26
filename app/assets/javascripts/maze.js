@@ -2,14 +2,15 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 
 	var canvas;
 	var ctx;
-	var dx = 15;
-	var dy = 15;
-	var x = 425;
-	var y = 5;
 	var WIDTH = 1000;
 	var HEIGHT = 1000;
 	var img = new Image();
 	var collision = 0;
+
+
+	canvas = document.getElementById("canvas");
+	ctx = canvas.getContext("2d");
+	img.src = "assets/mazeone1000.gif";
 
 	function rect(x,y,w,h) {
 		ctx.beginPath();
@@ -18,64 +19,68 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 		ctx.fill();
 	}
 
-	function clear() {
-		ctx.clearRect(0, 0, WIDTH, HEIGHT);
-		ctx.drawImage(img, 0, 0);
+	function drawMaze() { 
+		ctx.drawImage(img, 0, 0) 
 	}
 
-	function init() {
-		canvas = document.getElementById("canvas");
-		ctx = canvas.getContext("2d");
-		img.src = "assets/mazeone1000.gif";
-		return setInterval(draw, 10);
-	}
+	function clearCanvas(){	ctx.clearRect(0, 0, WIDTH, HEIGHT) }
 
-	function controlSquare(direction){
+	Square.prototype.move = function(direction){
 		var startValue = (direction === "up" || direction === "down") ? "y" : "x"
 		var operator = (direction === "up" || direction === "left") ? "-" : "+"
 		var inverseOperator = (operator === "-") ? "+" : "-"
 		var boundLimit = (direction === "down") ? HEIGHT : (direction === "right") ? WIDTH : 0 
 		var boundMovement = (operator === "-") ? ">" : "<"
 
-		var withinBounds = eval(startValue + " " + operator + " " + "d" + startValue + " " + boundMovement + " " + boundLimit);
-		var move = startValue + " " + operator + "=" + " " + "d" + startValue;
-		var moveBack = startValue + " " + inverseOperator + "=" + " " + "d" + startValue;
+		var withinBounds = eval("this." + startValue + " " + operator + " " + "this." +  "d" + startValue + " " + boundMovement + " " + boundLimit);
+		var move = "this." +  startValue + " " + operator + "=" + " " + "this." + "d" + startValue;
+		var moveBack = "this." +  startValue + " " + inverseOperator + "=" + " " + "this." +  "d" + startValue;
 
 		if (withinBounds) {
 			eval(move);
-			clear();
-			checkcollision();
-			if (collision == 1){
-				eval(moveBack);
-				collision = 0
-			}
+			if (checkcollision(this.x, this.y)){ eval(moveBack); }
 		}
 	};
 
-	function checkcollision() {
+
+	function checkcollision(x, y) {
 		var imgd = ctx.getImageData(x, y, 15, 15);
 		var pix = imgd.data;
 		for (var i = 0; n = pix.length, i < n; i += 4) {
-			if (pix[i] == 0) {
-				collision = 1;
-			}
+			if (pix[i] == 0) { return true }
 		}
 	}
 
-	function draw() {
-		clear();
+	function draw(x, y) {
+		clearCanvas();
+		drawMaze();
 		ctx.fillStyle = "purple";
 		rect(x, y, 15,15);
 	}
 
-	init();
+	function Square(){
+		this.dx = 15;
+		this.dy = 15;
+		this.x = 425;
+		this.y = 5;
+	}
+
+	Square.prototype.draw = function(){
+		var self = this;
+		setInterval(function(){draw(self.x, self.y)}, 1000);
+}
+
+	var square = new Square();
+	square.draw();
+
 
 	var client = new Pusher('77f6df16945f47c63a1f');
 	var pusher = $pusher(client);
-	var tiltChannel = pusher.subscribe('private-tilt-channel');
+	var tiltChannel = pusher.subscribe('presence-tilt-channel');
 
 	tiltChannel.bind('client-tilt', function(tilt){
-		controlSquare(tilt);
+		// controlSquare(tilt);
+		square.move(tilt);
 	});
 
 }]);
