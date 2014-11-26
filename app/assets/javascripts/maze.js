@@ -5,8 +5,8 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 	var WIDTH = 1000;
 	var HEIGHT = 1000;
 	var img = new Image();
-	var collision = 0;
 
+	var squares = [];
 
 	canvas = document.getElementById("canvas");
 	ctx = canvas.getContext("2d");
@@ -19,11 +19,37 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 		ctx.fill();
 	}
 
-	function drawMaze() { 
-		ctx.drawImage(img, 0, 0) 
-	}
+	function drawMaze() { ctx.drawImage(img, 0, 0) }
 
 	function clearCanvas(){	ctx.clearRect(0, 0, WIDTH, HEIGHT) }
+
+	function checkCollision(x, y) {
+		var imgd = ctx.getImageData(x, y, 15, 15);
+		var pix = imgd.data;
+		for (var i = 0; n = pix.length, i < n; i += 4) {
+			if (pix[i] == 0) { return true }
+		}
+	}
+
+	// Defining the Square object
+
+	function Square(x, y){
+		this.dx = 15;
+		this.dy = 15;
+		this.x = x;
+		this.y = y;
+	}
+
+	function draw (){
+		clearCanvas();
+		drawMaze();
+
+		_.each(squares, function(square){
+			ctx.fillStyle = "purple";
+			rect(square.x, square.y, 15,15);
+		});
+
+	}
 
 	Square.prototype.move = function(direction){
 		var startValue = (direction === "up" || direction === "down") ? "y" : "x"
@@ -38,44 +64,28 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 
 		if (withinBounds) {
 			eval(move);
-			if (checkcollision(this.x, this.y)){ eval(moveBack); }
+			if (checkCollision(this.x, this.y)){ eval(moveBack); }
 		}
 	};
 
-	function checkcollision(x, y) {
-		var imgd = ctx.getImageData(x, y, 15, 15);
-		var pix = imgd.data;
-		for (var i = 0; n = pix.length, i < n; i += 4) {
-			if (pix[i] == 0) { return true }
-		}
-	}
+	var squareOne = new Square(425, 5);
 
-	function Square(){
-		this.dx = 15;
-		this.dy = 15;
-		this.x = 425;
-		this.y = 5;
-	}
 
-	Square.prototype.draw = function(){
-		var self = this;
-		setInterval(function(){
-			clearCanvas();
-			drawMaze();
-			ctx.fillStyle = "purple";
-			rect(self.x, self.y, 15,15);
-		}, 10);
-	}
+	squares.push(squareOne);
 
-	var square = new Square();
-	square.draw();
+
+	var squareTwo = new Square(450, 5);
+	squares.push(squareTwo);
+	// squareTwo.draw();
+
+	setInterval(draw, 1000)
 
 	var client = new Pusher('77f6df16945f47c63a1f');
 	var pusher = $pusher(client);
 	var tiltChannel = pusher.subscribe('presence-tilt-channel');
 
 	tiltChannel.bind('client-tilt', function(tilt){
-		square.move(tilt);
+		squareTwo.move(tilt);
 	});
 
 }]);
