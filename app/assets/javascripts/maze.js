@@ -66,13 +66,12 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 
 		if (withinBounds) {
 			eval(move);
-			if (checkCollision(this.x, this.y)){ eval(moveBack); }
+			if (checkCollision(this.x, this.y)){ 
+				eval(moveBack);
+				tiltChannel.trigger('client-collision', {colour: this.colour})
+			}
 		}
 	};
-
-	var squareOne = new Square(425, 5, "blue");
-
-	var squareTwo = new Square(450, 5, "red");
 
 	setInterval(draw, 1000)
 
@@ -80,8 +79,17 @@ var app = angular.module('Maze').controller('AppCtrl', ['$scope', '$pusher', fun
 	var pusher = $pusher(client);
 	var tiltChannel = pusher.subscribe('presence-tilt-channel');
 
-	tiltChannel.bind('client-tilt', function(tilt){
-		squareTwo.move(tilt);
+	tiltChannel.bind('client-new-player', function(member){
+		new Square(475, 5, member.colour);
+	});
+
+	// tiltChannel.bind('pusher:member_removed', function(member){
+	// 	squares = _.without(squares, _.findWhere(squares, {colour: member.id}))
+	// });
+
+	tiltChannel.bind('client-tilt', function(member){
+		var square = _.findWhere(squares, {colour: member.colour });
+		square.move(member.tilt);
 	});
 
 }]);

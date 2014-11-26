@@ -1,21 +1,20 @@
-angular.module('Maze').controller('TiltCtrl', ['$scope', '$pusher', '$http', function($scope, $pusher, $http){
+angular.module('Maze' ,['pusher-angular']).controller('TiltCtrl', ['$scope', '$pusher', '$http', function($scope, $pusher, $http){
 	
 	var client = new Pusher('77f6df16945f47c63a1f');
 	var pusher = $pusher(client);
 	var tiltChannel = pusher.subscribe('presence-tilt-channel');
-
-	// console.log(tiltChannel.members);
-
-	// tiltChannel.trigger('client-new-player' {coliu})
+	var myColour;
 
 	tiltChannel.bind('pusher:subscription_succeeded', function(members){
-		console.log(members.count);
+		myColour = $scope.colour = members.me.id;
+		tiltChannel.trigger('client-new-player', {colour: myColour});
 	});
 
+	tiltChannel.bind('client-collision', function(member){
+		if (member.colour === myColour) navigator.vibrate(500);
+	})
 
-	tiltChannel.bind('pusher:member_added', function(member){
-		console.log(member);
-	});
+
 
 	var movement;
 	$scope.movement = null;
@@ -39,14 +38,14 @@ angular.module('Maze').controller('TiltCtrl', ['$scope', '$pusher', '$http', fun
 	}
 
 	$scope.debugTrigger = function(direction){
-		tiltChannel.trigger('client-tilt', direction);
+		tiltChannel.trigger('client-tilt', {colour: myColour, tilt: direction});
 	}
 
 	gyro.startTracking(function(o) {
-		if ($scope.debugMode) return;
+		// if ($scope.debugMode) return;
 		var o = {beta: o.beta, gamma: o.gamma}
 		findMovementFrom(o);
-		if ($scope.movement) tiltChannel.trigger('client-tilt', $scope.movement);
+		if ($scope.movement) tiltChannel.trigger('client-tilt', {colour: myColour, tilt: $scope.movement});
 	});
 
 

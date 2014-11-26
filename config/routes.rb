@@ -6,7 +6,5 @@ Rails.application.routes.draw do
 
   post '/pusher/auth', to: 'pusher#auth'
 
-  post '/choose_colour', to: 'control#colour_chosen'
-
   devise_for :users
 end

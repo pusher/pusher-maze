@@ -1,20 +1,7 @@
-<style type="text/css" media="screen">
-	span.arrow, span.arrow.chosen {
-		color: <%= session[:colour] %>;
-		opacity: 0.1;
-		font-size: 300px;
-	}
-
-	span.arrow.chosen {
-		opacity: 1;
-	}
-
-</style>
-
 <div class="container" ng-controller="TiltCtrl">
 
 	<div class="arrows col-md-12">
-		
+
 		<div class="row text-center">
 			<span class="glyphicon glyphicon-arrow-up arrow" ng-class="{'chosen': movement == 'up' }" ng-click="debugMode && debugTrigger('up')"></span>
 		</div>
@@ -27,5 +14,19 @@
 		</div>
 
 	</div>
+
+
+	<style type="text/css" media="screen">
+		span.arrow, span.arrow.chosen {
+			color: {{colour}};
+			opacity: 0.1;
+			font-size: 300px;
+		}
+
+		span.arrow.chosen {
+			opacity: 1;
+		}
+
+	</style>
 
 </div>
