@@ -11,9 +11,8 @@ angular.module('Maze' ,['pusher-angular']).controller('TiltCtrl', ['$scope', '$p
 	});
 
 	tiltChannel.bind('client-collision', function(member){
-		if (member.colour === myColour) navigator.vibrate(500);
+		if (member.colour === myColour) navigator.vibrate(100);
 	})
-
 
 
 	var movement;
