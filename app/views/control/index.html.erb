@@ -1,32 +1,18 @@
 <div class="container" ng-controller="TiltCtrl">
 
 	<div class="arrows col-md-12">
-
-		<div class="row text-center">
-			<span class="glyphicon glyphicon-arrow-up arrow" ng-class="{'chosen': movement == 'up' }" ng-click="debugMode && debugTrigger('up')"></span>
-		</div>
-		<div class="row text-center">
-			<span class="glyphicon glyphicon-arrow-left pull-left arrow" ng-class="{'chosen': movement == 'left' }" ng-click="debugMode && debugTrigger('left')"></span>
-			<span class="glyphicon glyphicon-arrow-right pull-right arrow" ng-class="{'chosen': movement == 'right' }" ng-click=" debugMode && debugTrigger('right')"></span>
-		</div>
-		<div class="row text-center">
-			<span class="glyphicon glyphicon-arrow-down arrow bottom" ng-class="{'chosen': movement == 'down' }" ng-click="debugMode && debugTrigger('down')"></span>
+		
+		<div ng-repeat="directions in directionGroups" class="row text-center">
+			<span 
+				ng-repeat="direction in directions"
+				class="glyphicon glyphicon-arrow-{{direction}} arrow pull-{{direction}}" 
+				ng-class="{'chosen': movement == direction}" 
+				ng-click="debugMode && debugTrigger(direction)"
+				style="color: {{colour}}"
+				>
+			</span>
 		</div>
 
 	</div>
-
-
-	<style type="text/css" media="screen">
-		span.arrow, span.arrow.chosen {
-			color: {{colour}};
-			opacity: 0.3;
-			font-size: 300px;
-		}
-
-		span.arrow.chosen {
-			opacity: 1;
-		}
-
-	</style>
 
 </div>

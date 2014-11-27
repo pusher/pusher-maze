@@ -1,5 +1,7 @@
 angular.module("Maze", ["pusher-angular"]).controller "TiltCtrl", ["$scope", "$pusher", "$http", ($scope, $pusher, $http) ->
     
+  $scope.directionGroups =  [["up"], ["left", "right"], ["down"]]
+
   findMovementFrom = (tilt) ->
     sortable = []
     sortable.push [angle, tilt[angle]] for angle of tilt
