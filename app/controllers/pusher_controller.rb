@@ -3,11 +3,13 @@ class PusherController < ApplicationController
   protect_from_forgery :except => :auth # stop rails CSRF protection for this action
 
   def auth
-  	colours = ['red','orange','yellow', 'blue', 'green', 'indigo', 'violet']
-
+  	colour = @@colours.sample
+  	@@colours.delete colour
+  
 	response = Pusher[params[:channel_name]].authenticate(params[:socket_id], {
-		user_id: colours.sample	
+		user_id: colour
 	})
+
 	render :json => response
   end
 

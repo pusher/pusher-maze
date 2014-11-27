@@ -42,9 +42,9 @@ app = angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope
       startValue = (if (direction is "up" or direction is "down") then "y" else "x")
       operator = (if (direction is "up" or direction is "left") then "-" else "+")
       inverseOperator = (if (operator is "-") then "+" else "-")
-
       boundLimit = (if (direction is "down") then HEIGHT else (if (direction is "right") then WIDTH else 0))
       boundMovement = (if (operator is "-") then ">" else "<")
+      
       withinBounds = eval("this." + startValue + " " + operator + " " + "this." + "d" + startValue + " " + boundMovement + " " + boundLimit)
       move = "this." + startValue + " " + operator + "=" + " " + "this." + "d" + startValue
       moveBack = "this." + startValue + " " + inverseOperator + "=" + " " + "this." + "d" + startValue
@@ -73,7 +73,6 @@ app = angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope
   tiltChannel.bind "client-new-player", (member) ->
     new Square(475, 5, member.colour)
 
-  
   tiltChannel.bind 'pusher:member_removed', (member) -> Square.all = _.without(Square.all, Square.colour(member.id));
 
   tiltChannel.bind "client-tilt", (member) ->
