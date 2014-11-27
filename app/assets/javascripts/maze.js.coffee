@@ -5,10 +5,10 @@ app = angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope
   WIDTH = 1000
   HEIGHT = 1000
   img = new Image()
-  squares = []
+  img.src = "assets/mazeone1000.gif"
+  
   canvas = document.getElementById("canvas")
   ctx = canvas.getContext("2d")
-  img.src = "assets/mazeone1000.gif"
 
   rect = (x, y, w, h) ->
     ctx.beginPath()
@@ -23,17 +23,20 @@ app = angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope
   checkCollision = (x, y) ->
     imgd = ctx.getImageData(x, y, 15, 15)
     pix = imgd.data
-    for i in [1...pix.length] by 4
-        return true if pix[i] is 0
+    for i in [1...pix.length] by 4  
+      return true if pix[i] is 0
 
 
   class Square
 
+    @all: []
+
+    @colour: (colour) -> _.findWhere(@all, {colour: colour})
+
     constructor: (@x, @y, @colour) ->
       @dx = 15
       @dy = 15
-      squares.push(@);
-
+      @constructor.all.push(@);
 
     move: (direction) ->
       startValue = (if (direction is "up" or direction is "down") then "y" else "x")
@@ -50,19 +53,16 @@ app = angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope
         eval move
         if checkCollision(@x, @y)
           eval moveBack
-          tiltChannel.trigger "client-collision",
-            colour: @colour
-
+          tiltChannel.trigger "client-collision", {colour: @colour}
 
   drawSquares = ->
     clearCanvas()
     drawMaze()
-    drawOne(square) for square in squares
+    drawOne(square) for square in Square.all;
 
   drawOne = (square) ->
     ctx.fillStyle = square.colour
     rect square.x, square.y, 15, 15 
-
 
   setInterval drawSquares, 1000
 
@@ -74,12 +74,10 @@ app = angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope
     new Square(475, 5, member.colour)
 
   
-  # tiltChannel.bind('pusher:member_removed', function(member){
-  # 	squares = _.without(squares, _.findWhere(squares, {colour: member.id}))
-  # });
+  tiltChannel.bind 'pusher:member_removed', (member) -> Square.all = _.without(Square.all, Square.colour(member.id));
 
   tiltChannel.bind "client-tilt", (member) ->
-    square = _.findWhere(squares, {colour: member.colour})
+    square = Square.colour(member.colour)
     square.move member.tilt
 
 ])
