@@ -49,7 +49,7 @@ angular.module("Maze", ["pusher-angular"]).controller "TiltCtrl", ["$scope", "$p
 
   # ---- GYROSCOPE CODE ----- 
 
-  gyro.frequency = 100;
+  gyro.frequency = 200;
 
   gyro.startTracking (o) ->
     o = {beta: o.beta, gamma: o.gamma}
