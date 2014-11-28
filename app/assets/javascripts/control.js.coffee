@@ -1,5 +1,32 @@
 angular.module("Maze", ["pusher-angular"]).controller "TiltCtrl", ["$scope", "$pusher", "$http", ($scope, $pusher, $http) ->
     
+  # --------------- Pusher ------------- 
+  
+  # -- Pusher Initialization 
+
+  client = new Pusher("77f6df16945f47c63a1f")
+  pusher = $pusher(client)
+  tiltChannel = pusher.subscribe("presence-tilt-channel")
+
+  # -- Event listeners and triggers
+
+  # Passing in 'up', 'down', 'left' and 'right', the phone triggers a client event with its own colour (as a kind of ID) and that movement
+  $scope.triggerTilt = (movement) -> tiltChannel.trigger "client-tilt", {colour: $scope.colour, tilt: movement}
+
+  # When the user successfully subscribes to the channel, the server assigns him a random colour.
+  # The phone then triggers a client event saying a new player has joined, and passes over his colour.
+
+  tiltChannel.bind "pusher:subscription_succeeded", (members) ->
+    $scope.colour = members.me.id
+    tiltChannel.trigger "client-new-player", {colour: $scope.colour}
+
+  # If the maze triggers an event saying that user has collided with the wall, the phone vibrates for 100ms.
+  tiltChannel.bind "client-collision", (member) -> navigator.vibrate 100  if member.colour is $scope.colour
+
+
+  #  -----------------------------------
+
+
   $scope.directionGroups =  [["up"], ["left", "right"], ["down"]]
 
   findMovementFrom = (tilt) ->
@@ -7,37 +34,20 @@ angular.module("Maze", ["pusher-angular"]).controller "TiltCtrl", ["$scope", "$p
     sortable.push [angle, tilt[angle]] for angle of tilt
 
     sorted = sortable.sort((a, b) -> Math.abs(b[1]) - Math.abs(a[1]))
-    choice = sorted[0]
+    [axis, value] = [sorted[0][0], sorted[0][1]]
 
-    movement = "up"  if choice[0] is "beta" and choice[1] < -10
-    movement = "down"  if choice[0] is "beta" and choice[1] > 10
-    movement = "right"  if choice[0] is "gamma" and choice[1] > 10
-    movement = "left"  if choice[0] is "gamma" and choice[1] < -10
+    movement = "up"  if angle is "beta" and value < -10
+    movement = "down"  if axis is "beta" and value > 10
+    movement = "right"  if axis is "gamma" and value > 10
+    movement = "left"  if axis is "gamma" and value < -10
     
     $scope.$apply -> $scope.movement = movement
 
-  client = new Pusher("77f6df16945f47c63a1f")
-  pusher = $pusher(client)
-  tiltChannel = pusher.subscribe("presence-tilt-channel")
-
-  myColour = undefined
-
-  tiltChannel.bind "pusher:subscription_succeeded", (members) ->
-    myColour = $scope.colour = members.me.id
-    tiltChannel.trigger "client-new-player", {colour: myColour}
-
-  tiltChannel.bind "client-collision", (member) -> navigator.vibrate 100  if member.colour is myColour
-
-  movement = undefined
-  $scope.movement = null
   $scope.debugMode = true
-
-  $scope.debugTrigger = (direction) ->
-    tiltChannel.trigger "client-tilt", {colour: myColour, tilt: direction}
 
   gyro.startTracking (o) ->
     o = {beta: o.beta, gamma: o.gamma}
     findMovementFrom o
-    if $scope.movement then tiltChannel.trigger "client-tilt", {colour: myColour, tilt: $scope.movement}
+    if $scope.movement then $scope.triggerTilt($scope.movement)
 
 ]

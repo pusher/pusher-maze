@@ -100,7 +100,6 @@ class ApplicationController < ActionController::Base
     "moccasin",
     "navajowhite",
     "navy",
-    "oldlace",
     "olive",
     "olivedrab",
     "orange",

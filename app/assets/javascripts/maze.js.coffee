@@ -1,19 +1,35 @@
 app = angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pusher) ->
-    
-  canvas = undefined
-  ctx = undefined
-  WIDTH = 1000
-  HEIGHT = 1000
+  
+  # --------------- Pusher ------------- 
+
+  # -- Pusher Initialization
+  client = new Pusher("77f6df16945f47c63a1f")
+  pusher = $pusher(client)
+  tiltChannel = pusher.subscribe("presence-tilt-channel")
+
+  # -- Event listeners
+
+  # Whenever there is a new player, create a new square
+  tiltChannel.bind "client-new-player", (user) -> new Square(475, 5, user.colour)
+
+  # Whenever a member is removed, delete a square from the array of squares
+  tiltChannel.bind 'pusher:member_removed', (user) -> Square.all = _.without(Square.all, Square.colour(user.id));
+
+  # Whenver somebody has tilt their phone, move the square whose colour is assigned to that user
+  tiltChannel.bind "client-tilt", (user) -> Square.colour(user.colour).move user.tilt
+
+  #  -----------------------------------
+
+  WIDTH = HEIGHT = 1000
   img = new Image()
   img.src = "assets/mazeone1000.gif"
-  
   canvas = document.getElementById("canvas")
   ctx = canvas.getContext("2d")
 
   rect = (x, y, w, h) ->
     ctx.beginPath()
     ctx.rect x, y, w, h
-    ctx.closePath()
+    ctx.closePath() 
     ctx.fill()
 
   drawMaze = -> ctx.drawImage img, 0, 0
@@ -26,7 +42,6 @@ app = angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope
     for i in [1...pix.length] by 4  
       return true if pix[i] is 0
 
-
   class Square
 
     @all: []
@@ -34,8 +49,7 @@ app = angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope
     @colour: (colour) -> _.findWhere(@all, {colour: colour})
 
     constructor: (@x, @y, @colour) ->
-      @dx = 15
-      @dy = 15
+      @dx = @dy = 15
       @constructor.all.push(@);
 
     move: (direction) ->
@@ -65,18 +79,5 @@ app = angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope
     rect square.x, square.y, 15, 15 
 
   setInterval drawSquares, 1000
-
-  client = new Pusher("77f6df16945f47c63a1f")
-  pusher = $pusher(client)
-  tiltChannel = pusher.subscribe("presence-tilt-channel")
-
-  tiltChannel.bind "client-new-player", (member) ->
-    new Square(475, 5, member.colour)
-
-  tiltChannel.bind 'pusher:member_removed', (member) -> Square.all = _.without(Square.all, Square.colour(member.id));
-
-  tiltChannel.bind "client-tilt", (member) ->
-    square = Square.colour(member.colour)
-    square.move member.tilt
 
 ])

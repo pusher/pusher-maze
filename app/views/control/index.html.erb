@@ -7,7 +7,7 @@
 				ng-repeat="direction in directions"
 				class="glyphicon glyphicon-arrow-{{direction}} arrow pull-{{direction}}" 
 				ng-class="{'chosen': movement == direction}" 
-				ng-click="debugMode && debugTrigger(direction)"
+				ng-click="debugMode && triggerTilt(direction)"
 				style="color: {{colour}}"
 				>
 			</span>
