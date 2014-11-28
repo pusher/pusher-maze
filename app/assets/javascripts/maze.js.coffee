@@ -78,6 +78,6 @@ app = angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope
     ctx.fillStyle = square.colour
     rect square.x, square.y, 15, 15 
 
-  setInterval drawSquares, 1000
+  setInterval drawSquares, 100
 
 ])

@@ -36,7 +36,7 @@ angular.module("Maze", ["pusher-angular"]).controller "TiltCtrl", ["$scope", "$p
     sorted = sortable.sort((a, b) -> Math.abs(b[1]) - Math.abs(a[1]))
     [axis, value] = [sorted[0][0], sorted[0][1]]
 
-    movement = "up"  if angle is "beta" and value < -10
+    movement = "up"  if axis is "beta" and value < -10
     movement = "down"  if axis is "beta" and value > 10
     movement = "right"  if axis is "gamma" and value > 10
     movement = "left"  if axis is "gamma" and value < -10
@@ -44,6 +44,8 @@ angular.module("Maze", ["pusher-angular"]).controller "TiltCtrl", ["$scope", "$p
     $scope.$apply -> $scope.movement = movement
 
   $scope.debugMode = true
+
+  gyro.frequency = 100;
 
   gyro.startTracking (o) ->
     o = {beta: o.beta, gamma: o.gamma}
