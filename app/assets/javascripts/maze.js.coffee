@@ -3,6 +3,7 @@ app = angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope
   # --------------- PUSHER ------------- 
 
   # -- Pusher Initialization
+
   client = new Pusher("77f6df16945f47c63a1f")
   pusher = $pusher(client)
   tiltChannel = pusher.subscribe("presence-tilt-channel")
@@ -13,14 +14,14 @@ app = angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope
   tiltChannel.bind "client-new-player", (user) -> new Square(475, 5, user.colour)
 
   # Whenever a member is removed, delete a square from the array of squares
-  tiltChannel.bind 'pusher:member_removed', (user) -> Square.all = _.without(Square.all, Square.colour(user.id));
+  tiltChannel.bind 'pusher:member_removed', (user) -> Square.all = _.without(Square.all, Square.colour(user.id))
 
   # Whenver somebody has tilt their phone, move the square whose colour is assigned to that user
   tiltChannel.bind "client-tilt", (user) -> Square.colour(user.colour).move user.tilt
 
   #  -----------------------------------
 
-  # --------- SETTING AND DRAWING ON THE CANVAS ------- 
+  # --------- SETTING UP AND DRAWING ON THE CANVAS ------- 
 
   WIDTH = HEIGHT = 1000
   img = new Image()
@@ -60,7 +61,7 @@ app = angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope
 
     constructor: (@x, @y, @colour) ->
       @dx = @dy = 15
-      @constructor.all.push(@);
+      @constructor.all.push(@)
 
     move: (direction) ->
       startValue = (if (direction is "up" or direction is "down") then "y" else "x")
