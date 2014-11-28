@@ -26,8 +26,9 @@ angular.module("Maze", ["pusher-angular"]).controller "TiltCtrl", ["$scope", "$p
 
   #  -----------------------------------
 
-
   $scope.directionGroups =  [["up"], ["left", "right"], ["down"]]
+
+  # Try and find the intended angle and assign it to $scope.movement
 
   findMovementFrom = (tilt) ->
     sortable = []
@@ -44,6 +45,9 @@ angular.module("Maze", ["pusher-angular"]).controller "TiltCtrl", ["$scope", "$p
     $scope.$apply -> $scope.movement = movement
 
   $scope.debugMode = true
+
+
+  # ---- GYROSCOPE CODE ----- 
 
   gyro.frequency = 100;
 

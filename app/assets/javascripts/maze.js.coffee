@@ -1,6 +1,6 @@
 app = angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pusher) ->
   
-  # --------------- Pusher ------------- 
+  # --------------- PUSHER ------------- 
 
   # -- Pusher Initialization
   client = new Pusher("77f6df16945f47c63a1f")
@@ -20,6 +20,7 @@ app = angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope
 
   #  -----------------------------------
 
+  # --------- SETTING AND DRAWING ON HTML CANVAS ------- 
   WIDTH = HEIGHT = 1000
   img = new Image()
   img.src = "assets/mazeone1000.gif"
@@ -41,6 +42,20 @@ app = angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope
     pix = imgd.data
     for i in [1...pix.length] by 4  
       return true if pix[i] is 0
+
+  drawSquares = ->
+    clearCanvas()
+    drawMaze()
+    drawOne(square) for square in Square.all;
+
+  drawOne = (square) ->
+    ctx.fillStyle = square.colour
+    rect square.x, square.y, 15, 15 
+
+  setInterval drawSquares, 100
+
+
+  # -------- THE SQUARE CLASS -------
 
   class Square
 
@@ -68,16 +83,5 @@ app = angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope
         if checkCollision(@x, @y)
           eval moveBack
           tiltChannel.trigger "client-collision", {colour: @colour}
-
-  drawSquares = ->
-    clearCanvas()
-    drawMaze()
-    drawOne(square) for square in Square.all;
-
-  drawOne = (square) ->
-    ctx.fillStyle = square.colour
-    rect square.x, square.y, 15, 15 
-
-  setInterval drawSquares, 100
 
 ])
