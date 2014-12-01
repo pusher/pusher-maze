@@ -1,6 +1,6 @@
 angular.module("Maze", ["pusher-angular"]).controller "TiltCtrl", ["$scope", "$pusher", "$http", ($scope, $pusher, $http) ->
     
-  # --------------- Pusher ------------- 
+  # --------------- PUSHER ------------- 
   
   # -- Pusher Initialization 
 
@@ -44,16 +44,16 @@ angular.module("Maze", ["pusher-angular"]).controller "TiltCtrl", ["$scope", "$p
     
     $scope.$apply -> $scope.movement = movement
 
-  $scope.debugMode = true
+  $scope.debugMode = true # this is for my debugging - so that I'm able to trigger on click/touch
 
 
   # ---- GYROSCOPE CODE ----- 
 
-  gyro.frequency = 200;
+  gyro.frequency = 200 # frequency set to 200ms
 
-  gyro.startTracking (o) ->
-    o = {beta: o.beta, gamma: o.gamma}
-    findMovementFrom o
+  gyro.startTracking (angles) ->
+    angles = {beta: angles.beta, gamma: angles.gamma}
+    findMovementFrom angles
     if $scope.movement then $scope.triggerTilt($scope.movement)
 
 ]
