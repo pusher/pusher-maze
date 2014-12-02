@@ -11,6 +11,7 @@ angular.module("Maze", ["pusher-angular"]).controller "TiltCtrl", ["$scope", "$p
   # -- Event listeners and triggers
 
   # Passing in 'up', 'down', 'left' and 'right', the phone triggers a client event with its own colour (as a kind of ID) and that movement
+  
   $scope.triggerTilt = (movement) -> tiltChannel.trigger "client-tilt", {colour: $scope.colour, tilt: movement}
 
   # When the user successfully subscribes to the channel, the server assigns him a random colour.
@@ -21,6 +22,7 @@ angular.module("Maze", ["pusher-angular"]).controller "TiltCtrl", ["$scope", "$p
     tiltChannel.trigger "client-new-player", {colour: $scope.colour}
 
   # If the maze triggers an event saying that user has collided with the wall, the phone vibrates for 100ms.
+  
   tiltChannel.bind "client-collision", (member) -> navigator.vibrate 100  if member.colour is $scope.colour
 
 
@@ -28,7 +30,7 @@ angular.module("Maze", ["pusher-angular"]).controller "TiltCtrl", ["$scope", "$p
 
   $scope.directionGroups =  [["up"], ["left", "right"], ["down"]]
 
-  # Try and find the intended angle and assign it to $scope.movement
+  # Try and find the intended movement (up, down, left right) and assign it to $scope.movement
 
   findMovementFrom = (tilt) ->
     sortable = []

@@ -11,12 +11,15 @@ app = angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope
   # -- Event listeners
 
   # Whenever there is a new player, create a new square
+
   tiltChannel.bind "client-new-player", (user) -> new Square(475, 5, user.colour)
 
   # Whenever a member is removed, delete a square from the array of squares
+
   tiltChannel.bind 'pusher:member_removed', (user) -> Square.all = _.without(Square.all, Square.colour(user.id))
 
   # Whenver somebody has tilt their phone, move the square whose colour is assigned to that user
+  
   tiltChannel.bind "client-tilt", (user) -> Square.colour(user.colour).move user.tilt
 
   #  -----------------------------------
