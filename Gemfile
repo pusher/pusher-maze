@@ -31,6 +31,11 @@ gem 'angularjs-rails'
 gem 'bootstrap-sass'
 gem 'underscore-rails'
 
+group :production do
+	gem 'heroku_secrets', github: 'alexpeattie/heroku_secrets'
+end
+
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
