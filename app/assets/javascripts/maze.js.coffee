@@ -1,4 +1,4 @@
-app = angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pusher) ->
+angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pusher) ->
   
   # --------------- PUSHER ------------- 
 
@@ -19,10 +19,9 @@ app = angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope
   tiltChannel.bind 'pusher:member_removed', (user) -> Square.all = _.without(Square.all, Square.colour(user.id))
 
   # Whenver somebody has tilt their phone, move the square whose colour is assigned to that user
-  
+
   tiltChannel.bind "client-tilt", (user) -> Square.colour(user.colour).move user.tilt
 
-  #  -----------------------------------
 
   # --------- SETTING UP AND DRAWING ON THE CANVAS ------- 
 
@@ -53,14 +52,17 @@ app = angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope
 
   setInterval drawSquares, 100 # redraws canvas every 100ms
 
-
   # -------- THE SQUARE CLASS -------
 
   class Square
 
+    # class methods
+
     @all: []
 
     @colour: (colour) -> _.findWhere(@all, {colour: colour})
+
+    # instance methods
 
     constructor: (@x, @y, @colour) ->
       @dx = @dy = 15

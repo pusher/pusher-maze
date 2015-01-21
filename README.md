@@ -4,7 +4,7 @@ You may come out alive, but you won't come out the same.
 
 ##What Is It?
 
-The Maze Of Terrors&trade; is a multiplayer game that allows players to control their icon going through a maze on a second screen.
+The Maze Of Terrors&trade; is a multiplayer game powered by Pusher that allows players to control their icon going through a maze on a second screen.
 
 How do they do this? Just by tilting their phone!
 
