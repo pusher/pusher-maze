@@ -1,11 +1,16 @@
+/** @jsx React.DOM */
+
+
 var React = require('react');
-var ReactCanvas = require('react-canvas');
 
-var Surface = ReactCanvas.Surface;
-var Image = ReactCanvas.Image;
+var ReactKinetic = require('react-kinetic');
 
-var Square = require('./square');
+var Stage = ReactKinetic.Stage;
+var Layer = ReactKinetic.Layer;
+var KImage = ReactKinetic.Image;
 
+var MazeImg = new Image();
+MazeImg.src = "assets/mazeone1000.gif"
 
 var Maze = React.createClass({
 
@@ -18,52 +23,42 @@ var Maze = React.createClass({
 	},
 
 	componentWillMount: function() {
-		// this.surface = this.refs.surface
-		// this.ctx = this.surface.getContext();
+
 	},
 
 	componentDidMount: function() {
-		// this.surface = this.refs.surface;
-		// console.log(this.surface)
-		this.setState({ctx: this.refs.surface.getContext()})
-		console.log(this.state)
-		// console.log(this.state.ctx)
 	},
 
 	render: function() {
 
 		this.WIDTH = this.HEIGHT = 1000
-		var SRC = "assets/mazeone1000.gif"
-		var imageStyle = this.getImageStyle()
 
 		return (
-			<div>
-				<Surface ref='surface' 
-					width={this.WIDTH} 
-					height={this.HEIGHT} 
-					left={0} 
-					top={0}
-				>
-			 		<Image src={SRC} style={imageStyle} />
-			 		<Square />
-				</Surface>
-			</div>
+			<Stage
+				width={this.WIDTH} 
+				height={this.HEIGHT} 
+				left={0} 
+				top={0}
+			>
+				<Layer>
+    				  <KImage x="0" y="0"
+			              image={MazeImg}
+			              width="1000" height="1000"/>
+				</Layer>
+			</Stage>
 
 		);
+
 	},
-
-	  getImageStyle: function () {
-	    return {
-	      top: 0,
-	      left: 0,
-	      width: this.WIDTH,
-	      height: this.HEIGHT
-	    };
-	  }
-
 
 });
 
 $(document).ready(function(){
-	React.render(<Maze/>, document.getElementById('maze')) 
+	MazeImg.onload = function(){
+		console.log('img lded')
+		React.renderComponent(
+			<Maze />, 
+			document.getElementById('maze')) 		
+		}
+
 })

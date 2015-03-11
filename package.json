@@ -4,13 +4,15 @@
   "description": "You may come out alive, but you won't come out the same.",
   "main": "index.js",
   "dependencies": {
-    "react-canvas": "^0.0.1",
+    "kinetic": "5.0.6",
+    "react": "0.11.0",
+    "react-kinetic": "^0.3.0",
     "underscore": "^1.8.2"
   },
   "devDependencies": {
     "browserify": "~> 6.3",
     "browserify-incremental": "^1.4.0",
-    "reactify": "latest"
+    "reactify": "0.11.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
