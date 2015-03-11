@@ -88,6 +88,7 @@ angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pus
     collision: ->
       imgd = ctx.getImageData(@x, @y, 15, 15)
       pix = imgd.data
+      console.log pix
       for i in [1...pix.length] by 4  
         return true if pix[i] is 0
 

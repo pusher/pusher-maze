@@ -31,6 +31,9 @@ gem 'angularjs-rails'
 gem 'bootstrap-sass'
 gem 'underscore-rails'
 
+gem 'browserify-rails', "~> 0.7"
+
+
 group :production do
 	gem 'heroku_secrets', github: 'alexpeattie/heroku_secrets'
 end

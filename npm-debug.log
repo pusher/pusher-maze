@@ -1,0 +1,148 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/opt/nvm/v0.10.32/bin/node',
+1 verbose cli   '/usr/local/opt/nvm/v0.10.32/bin/npm',
+1 verbose cli   'install' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.32
+4 verbose node symlink /usr/local/opt/nvm/v0.10.32/bin/node
+5 verbose readDependencies using package.json deps
+6 verbose install where, deps [ '/Users/jamiepatel/Desktop/projects/pusher-maze',
+6 verbose install   [ 'react-canvas',
+6 verbose install     'browserify',
+6 verbose install     'browserify-incremental',
+6 verbose install     'reactify' ] ]
+7 info preinstall pusher-maze@1.0.0
+8 verbose readDependencies using package.json deps
+9 verbose cache add [ 'reactify@latest', null ]
+10 verbose cache add name=undefined spec="reactify@latest" args=["reactify@latest",null]
+11 verbose parsed url { protocol: null,
+11 verbose parsed url   slashes: null,
+11 verbose parsed url   auth: null,
+11 verbose parsed url   host: null,
+11 verbose parsed url   port: null,
+11 verbose parsed url   hostname: null,
+11 verbose parsed url   hash: null,
+11 verbose parsed url   search: null,
+11 verbose parsed url   query: null,
+11 verbose parsed url   pathname: 'reactify@latest',
+11 verbose parsed url   path: 'reactify@latest',
+11 verbose parsed url   href: 'reactify@latest' }
+12 verbose cache add name="reactify" spec="latest" args=["reactify","latest"]
+13 verbose parsed url { protocol: null,
+13 verbose parsed url   slashes: null,
+13 verbose parsed url   auth: null,
+13 verbose parsed url   host: null,
+13 verbose parsed url   port: null,
+13 verbose parsed url   hostname: null,
+13 verbose parsed url   hash: null,
+13 verbose parsed url   search: null,
+13 verbose parsed url   query: null,
+13 verbose parsed url   pathname: 'latest',
+13 verbose parsed url   path: 'latest',
+13 verbose parsed url   href: 'latest' }
+14 verbose addNamed [ 'reactify', 'latest' ]
+15 verbose addNamed [ null, null ]
+16 verbose cache add [ 'react-canvas@https://github.com/fdecampredon/react-canvas/tree/custom-react-component',
+16 verbose cache add   null ]
+17 verbose cache add name=undefined spec="react-canvas@https://github.com/fdecampredon/react-canvas/tree/custom-react-component" args=["react-canvas@https://github.com/fdecampredon/react-canvas/tree/custom-react-component",null]
+18 verbose parsed url { protocol: null,
+18 verbose parsed url   slashes: null,
+18 verbose parsed url   auth: null,
+18 verbose parsed url   host: null,
+18 verbose parsed url   port: null,
+18 verbose parsed url   hostname: null,
+18 verbose parsed url   hash: null,
+18 verbose parsed url   search: null,
+18 verbose parsed url   query: null,
+18 verbose parsed url   pathname: 'react-canvas@https://github.com/fdecampredon/react-canvas/tree/custom-react-component',
+18 verbose parsed url   path: 'react-canvas@https://github.com/fdecampredon/react-canvas/tree/custom-react-component',
+18 verbose parsed url   href: 'react-canvas@https://github.com/fdecampredon/react-canvas/tree/custom-react-component' }
+19 silly lockFile 82dfd23f-reactify-latest reactify@latest
+20 verbose lock reactify@latest /Users/jamiepatel/.npm/82dfd23f-reactify-latest.lock
+21 verbose already installed skipping browserify@~> 6.3 /Users/jamiepatel/Desktop/projects/pusher-maze
+22 verbose cache add name="react-canvas" spec="https://github.com/fdecampredon/react-canvas/tree/custom-react-component" args=["react-canvas","https://github.com/fdecampredon/react-canvas/tree/custom-react-component"]
+23 verbose parsed url { protocol: 'https:',
+23 verbose parsed url   slashes: true,
+23 verbose parsed url   auth: null,
+23 verbose parsed url   host: 'github.com',
+23 verbose parsed url   port: null,
+23 verbose parsed url   hostname: 'github.com',
+23 verbose parsed url   hash: null,
+23 verbose parsed url   search: null,
+23 verbose parsed url   query: null,
+23 verbose parsed url   pathname: '/fdecampredon/react-canvas/tree/custom-react-component',
+23 verbose parsed url   path: '/fdecampredon/react-canvas/tree/custom-react-component',
+23 verbose parsed url   href: 'https://github.com/fdecampredon/react-canvas/tree/custom-react-component' }
+24 silly lockFile 4a493dee-nvas-tree-custom-react-component https://github.com/fdecampredon/react-canvas/tree/custom-react-component
+25 verbose lock https://github.com/fdecampredon/react-canvas/tree/custom-react-component /Users/jamiepatel/.npm/4a493dee-nvas-tree-custom-react-component.lock
+26 verbose already installed skipping browserify-incremental@^1.4.0 /Users/jamiepatel/Desktop/projects/pusher-maze
+27 info addNameTag [ 'reactify', 'latest' ]
+28 verbose addRemoteTarball [ 'https://github.com/fdecampredon/react-canvas/tree/custom-react-component',
+28 verbose addRemoteTarball   null ]
+29 verbose request where is /reactify
+30 verbose request registry https://registry.npmjs.org/
+31 verbose request id ed4e96104b220514
+32 verbose url raw /reactify
+33 verbose url resolving [ 'https://registry.npmjs.org/', './reactify' ]
+34 verbose url resolved https://registry.npmjs.org/reactify
+35 verbose request where is https://registry.npmjs.org/reactify
+36 info trying registry request attempt 1 at 21:53:33
+37 verbose etag "19SFY87U6AC6EHCNFX81IODMP"
+38 http GET https://registry.npmjs.org/reactify
+39 info retry fetch attempt 1 at 21:53:34
+40 verbose fetch to= /var/folders/m_/pn2_v7bx6nz1q3m2fgz9jv540000gn/T/npm-93569-q_6eMneI/github.com/fdecampredon/react-canvas/tree/custom-react-component
+41 http GET https://github.com/fdecampredon/react-canvas/tree/custom-react-component
+42 http 304 https://registry.npmjs.org/reactify
+43 silly registry.get cb [ 304,
+43 silly registry.get   { date: 'Tue, 10 Mar 2015 21:53:34 GMT',
+43 silly registry.get     server: 'Apache',
+43 silly registry.get     via: '1.1 varnish',
+43 silly registry.get     'last-modified': 'Tue, 10 Mar 2015 21:53:34 GMT',
+43 silly registry.get     'cache-control': 'max-age=60',
+43 silly registry.get     etag: '"19SFY87U6AC6EHCNFX81IODMP"',
+43 silly registry.get     age: '0',
+43 silly registry.get     'x-served-by': 'cache-lhr6328-LHR',
+43 silly registry.get     'x-cache': 'HIT',
+43 silly registry.get     'x-cache-hits': '1',
+43 silly registry.get     'x-timer': 'S1426024414.323651,VS0,VE154',
+43 silly registry.get     vary: 'Accept',
+43 silly registry.get     'content-length': '0',
+43 silly registry.get     'keep-alive': 'timeout=10, max=50',
+43 silly registry.get     connection: 'Keep-Alive' } ]
+44 verbose etag https://registry.npmjs.org/reactify from cache
+45 verbose addNamed [ 'reactify', '1.0.0' ]
+46 verbose addNamed [ '1.0.0', '1.0.0' ]
+47 silly lockFile eb832512-reactify-1-0-0 reactify@1.0.0
+48 verbose lock reactify@1.0.0 /Users/jamiepatel/.npm/eb832512-reactify-1-0-0.lock
+49 silly lockFile eb832512-reactify-1-0-0 reactify@1.0.0
+50 silly lockFile eb832512-reactify-1-0-0 reactify@1.0.0
+51 silly lockFile 82dfd23f-reactify-latest reactify@latest
+52 silly lockFile 82dfd23f-reactify-latest reactify@latest
+53 info already installed reactify@1.0.0
+54 http 200 https://github.com/fdecampredon/react-canvas/tree/custom-react-component
+55 verbose tar unpack /var/folders/m_/pn2_v7bx6nz1q3m2fgz9jv540000gn/T/npm-93569-q_6eMneI/github.com/fdecampredon/react-canvas/tree/custom-react-component
+56 silly lockFile 5b883294-ee-custom-react-component-unpack tar:///var/folders/m_/pn2_v7bx6nz1q3m2fgz9jv540000gn/T/npm-93569-q_6eMneI/github.com/fdecampredon/react-canvas/tree/custom-react-component-unpack
+57 verbose lock tar:///var/folders/m_/pn2_v7bx6nz1q3m2fgz9jv540000gn/T/npm-93569-q_6eMneI/github.com/fdecampredon/react-canvas/tree/custom-react-component-unpack /Users/jamiepatel/.npm/5b883294-ee-custom-react-component-unpack.lock
+58 silly lockFile 482578f0-nvas-tree-custom-react-component tar:///var/folders/m_/pn2_v7bx6nz1q3m2fgz9jv540000gn/T/npm-93569-q_6eMneI/github.com/fdecampredon/react-canvas/tree/custom-react-component
+59 verbose lock tar:///var/folders/m_/pn2_v7bx6nz1q3m2fgz9jv540000gn/T/npm-93569-q_6eMneI/github.com/fdecampredon/react-canvas/tree/custom-react-component /Users/jamiepatel/.npm/482578f0-nvas-tree-custom-react-component.lock
+60 silly gunzTarPerm modes [ '755', '644' ]
+61 error not a package /var/folders/m_/pn2_v7bx6nz1q3m2fgz9jv540000gn/T/npm-93569-q_6eMneI/github.com/fdecampredon/react-canvas/tree/custom-react-component
+62 silly lockFile 5b883294-ee-custom-react-component-unpack tar:///var/folders/m_/pn2_v7bx6nz1q3m2fgz9jv540000gn/T/npm-93569-q_6eMneI/github.com/fdecampredon/react-canvas/tree/custom-react-component-unpack
+63 silly lockFile 5b883294-ee-custom-react-component-unpack tar:///var/folders/m_/pn2_v7bx6nz1q3m2fgz9jv540000gn/T/npm-93569-q_6eMneI/github.com/fdecampredon/react-canvas/tree/custom-react-component-unpack
+64 silly lockFile 482578f0-nvas-tree-custom-react-component tar:///var/folders/m_/pn2_v7bx6nz1q3m2fgz9jv540000gn/T/npm-93569-q_6eMneI/github.com/fdecampredon/react-canvas/tree/custom-react-component
+65 silly lockFile 482578f0-nvas-tree-custom-react-component tar:///var/folders/m_/pn2_v7bx6nz1q3m2fgz9jv540000gn/T/npm-93569-q_6eMneI/github.com/fdecampredon/react-canvas/tree/custom-react-component
+66 silly lockFile 4a493dee-nvas-tree-custom-react-component https://github.com/fdecampredon/react-canvas/tree/custom-react-component
+67 silly lockFile 4a493dee-nvas-tree-custom-react-component https://github.com/fdecampredon/react-canvas/tree/custom-react-component
+68 error Error: ENOENT, open '/var/folders/m_/pn2_v7bx6nz1q3m2fgz9jv540000gn/T/npm-93569-q_6eMneI/github.com/fdecampredon/react-canvas/tree/custom-react-component-unpack/package.json'
+69 error If you need help, you may report this *entire* log,
+69 error including the npm and node versions, at:
+69 error     <http://github.com/npm/npm/issues>
+70 error System Darwin 14.0.0
+71 error command "/usr/local/opt/nvm/v0.10.32/bin/node" "/usr/local/opt/nvm/v0.10.32/bin/npm" "install"
+72 error cwd /Users/jamiepatel/Desktop/projects/pusher-maze
+73 error node -v v0.10.32
+74 error npm -v 1.4.28
+75 error path /var/folders/m_/pn2_v7bx6nz1q3m2fgz9jv540000gn/T/npm-93569-q_6eMneI/github.com/fdecampredon/react-canvas/tree/custom-react-component-unpack/package.json
+76 error code ENOENT
+77 error errno 34
+78 verbose exit [ 34, true ]

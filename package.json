@@ -1,0 +1,28 @@
+{
+  "name": "pusher-maze",
+  "version": "1.0.0",
+  "description": "You may come out alive, but you won't come out the same.",
+  "main": "index.js",
+  "dependencies": {
+    "react-canvas": "^0.0.1",
+    "underscore": "^1.8.2"
+  },
+  "devDependencies": {
+    "browserify": "~> 6.3",
+    "browserify-incremental": "^1.4.0",
+    "reactify": "latest"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pusher/pusher-maze.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pusher/pusher-maze/issues"
+  },
+  "homepage": "https://github.com/pusher/pusher-maze"
+}
