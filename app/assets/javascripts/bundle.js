@@ -85,9 +85,7 @@ var Maze = React.createClass({displayName: 'Maze',
 	componentDidMount: function() {
 
 		this.tiltChannel.bind('client-new-player', function(user){
-			var existingSquares = this.state.squares
-			var square = {x: 0, y: 0, dx: 10, dy:10, colour: user.colour, height: 10, width: 10}
-			var updatedSquares = existingSquares.concat(square)
+			var updatedSquares = this.addSquare(user);
 			this.setState({squares: updatedSquares})
 		}, this);
 
@@ -97,7 +95,7 @@ var Maze = React.createClass({displayName: 'Maze',
 		}, this);
 
 		this.tiltChannel.bind('pusher:member_removed', function(user){
-			var updatedSquares = this.removeSquare(user)
+			var updatedSquares = this.removeSquare(user);
 			this.setState({squares: updatedSquares})
 		}, this);
 
@@ -105,6 +103,12 @@ var Maze = React.createClass({displayName: 'Maze',
 
 	componentWillUnmount: function() {
 		this.pusher.disconnect()
+	},
+
+	addSquare: function(user){
+		var existingSquares = this.state.squares
+		var square = {x: 0, y: 0, dx: 10, dy:10, colour: user.colour, height: 10, width: 10}
+		return existingSquares.concat(square)
 	},
 
 	removeSquare: function(user){
