@@ -54,7 +54,7 @@ var Maze = React.createClass({
 
 	addSquare: function(user){
 		var existingSquares = this.state.squares
-		var square = {x: 0, y: 0, dx: 10, dy:10, colour: user.colour, height: 10, width: 10}
+		var square = {x: 475, y: 5, dx: 10, dy:10, colour: user.colour, height: this.props.squareSize, width: this.props.squareSize}
 		return existingSquares.concat(square)
 	},
 
@@ -65,9 +65,6 @@ var Maze = React.createClass({
 	},
 
 	render: function() {
-
-		this.HEIGHT 	= 1000
-		this.WIDTH 		= 1000
 
 		var squares = this.state.squares.map(function(square){
 			return (
@@ -82,15 +79,15 @@ var Maze = React.createClass({
 
 		return (
 			<Stage
-				width={this.WIDTH} 
-				height={this.HEIGHT} 
+				width={this.props.width} 
+				height={this.props.height} 
 				left={0} 
 				top={0}
 			>
 				<Layer>
     				  <KImage x="0" y="0"
 			              image={MazeImg}
-			              width={this.WIDTH} height={this.HEIGHT}/>
+			              width={this.props.width} height={this.props.height}/>
 
 		              {squares}
 
@@ -106,7 +103,7 @@ var Maze = React.createClass({
 $(document).ready(function(){
 	MazeImg.onload = function(){
 		React.renderComponent(
-			<Maze />, 
+			<Maze height={1000} width={1000} squareSize={15} />, 
 			document.getElementById('maze')) 		
 		}
 

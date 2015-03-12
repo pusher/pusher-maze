@@ -15,7 +15,7 @@ module.exports = MazeTravel = {
 				}
 				break;
 			case 'down':
-				if (square.y + square.dy < this.HEIGHT){
+				if (square.y + square.dy < this.props.height){
 					square.y += square.dy
 				}
 				break;
@@ -25,7 +25,7 @@ module.exports = MazeTravel = {
 				}
 				break;
 			case 'right':
-				if (square.x + square.dx < this.WIDTH) {
+				if (square.x + square.dx < this.props.width) {
 					square.x += square.dx
 				}
 				break;
@@ -43,7 +43,7 @@ module.exports = MazeTravel = {
 		var ctx = this.getDOMNode().firstChild.firstChild.firstChild.getContext('2d');
 		var imgd = ctx.getImageData(square.x, square.y, square.width, square.height);
 		var pix = imgd.data;
-		for (var i = 0; n = pix.length, i < n; i += 4) {
+		for (var i = 0; n = pix.length, i < n; i += 2) {
 			if (pix[i] == 0) return true
 		}
 	}

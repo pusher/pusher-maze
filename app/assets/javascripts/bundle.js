@@ -16,7 +16,7 @@ module.exports = MazeTravel = {
 				}
 				break;
 			case 'down':
-				if (square.y + square.dy < this.HEIGHT){
+				if (square.y + square.dy < this.props.height){
 					square.y += square.dy
 				}
 				break;
@@ -26,7 +26,7 @@ module.exports = MazeTravel = {
 				}
 				break;
 			case 'right':
-				if (square.x + square.dx < this.WIDTH) {
+				if (square.x + square.dx < this.props.width) {
 					square.x += square.dx
 				}
 				break;
@@ -44,7 +44,7 @@ module.exports = MazeTravel = {
 		var ctx = this.getDOMNode().firstChild.firstChild.firstChild.getContext('2d');
 		var imgd = ctx.getImageData(square.x, square.y, square.width, square.height);
 		var pix = imgd.data;
-		for (var i = 0; n = pix.length, i < n; i += 4) {
+		for (var i = 0; n = pix.length, i < n; i += 2) {
 			if (pix[i] == 0) return true
 		}
 	}
@@ -107,7 +107,7 @@ var Maze = React.createClass({displayName: 'Maze',
 
 	addSquare: function(user){
 		var existingSquares = this.state.squares
-		var square = {x: 0, y: 0, dx: 10, dy:10, colour: user.colour, height: 10, width: 10}
+		var square = {x: 475, y: 5, dx: 10, dy:10, colour: user.colour, height: this.props.squareSize, width: this.props.squareSize}
 		return existingSquares.concat(square)
 	},
 
@@ -118,9 +118,6 @@ var Maze = React.createClass({displayName: 'Maze',
 	},
 
 	render: function() {
-
-		this.HEIGHT 	= 1000
-		this.WIDTH 		= 1000
 
 		var squares = this.state.squares.map(function(square){
 			return (
@@ -135,15 +132,15 @@ var Maze = React.createClass({displayName: 'Maze',
 
 		return (
 			Stage({
-				width: this.WIDTH, 
-				height: this.HEIGHT, 
+				width: this.props.width, 
+				height: this.props.height, 
 				left: 0, 
 				top: 0
 			}, 
 				Layer(null, 
     				  KImage({x: "0", y: "0", 
 			              image: MazeImg, 
-			              width: this.WIDTH, height: this.HEIGHT}), 
+			              width: this.props.width, height: this.props.height}), 
 
 		              squares
 
@@ -159,7 +156,7 @@ var Maze = React.createClass({displayName: 'Maze',
 $(document).ready(function(){
 	MazeImg.onload = function(){
 		React.renderComponent(
-			Maze(null), 
+			Maze({height: 1000, width: 1000, squareSize: 15}), 
 			document.getElementById('maze')) 		
 		}
 
