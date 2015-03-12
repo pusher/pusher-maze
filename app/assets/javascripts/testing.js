@@ -22,30 +22,42 @@ var Maze = React.createClass({
 		};
 	},
 
-	componentDidMount: function() {
-
+	componentWillMount: function() {
 		this.pusher = new Pusher("77f6df16945f47c63a1f")
-		this.tiltChannel = this.pusher.subscribe("presence-tilt-channel")
+		this.tiltChannel = this.pusher.subscribe("presence-tilt-channel")	
+	},
+
+	componentDidMount: function() {
 
 		this.tiltChannel.bind('client-new-player', function(user){
 			this.setState({squares: this.state.squares.concat({x: 0, y: 0, dx: 15, dy:15, colour: user.colour})})
 		}, this);
 
 		this.tiltChannel.bind('client-tilt', function(user){
-			console.log(user)
 			this.moveSquare(user.colour, user.tilt)
+		}, this);
 
-		}, this)
+		this.tiltChannel.bind('pusher:member_removed', function(user){
+			this.removeSquare(user.id)
+		}, this);
 
+	},
+
+	componentWillUnmount: function(nextProps, nextState) {
+		this.pusher.disconnect()
+	},
+
+	removeSquare: function(colour){
+		var squares = this.state.squares
+		var square = _.findWhere(squares, {colour: colour})
+		var modSquares = _.without(squares, square);
+		this.setState({squares: modSquares})
 	},
 
 	moveSquare: function(colour, direction){
 		var squares = this.state.squares;
-
 		var square = _.findWhere(squares, {colour: colour})
-
 		var modSquares = _.without(squares, square);
-
 		var previousX = square.x
 		var previousY = square.y
 
@@ -73,9 +85,7 @@ var Maze = React.createClass({
 		}
 
 		if (this.checkCollision(square.x, square.y)){square.x = previousX ; square.y = previousY}
-
 		this.setState({squares: modSquares.concat(square)})
-
 	},
 
 	checkCollision: function(x, y){
@@ -83,9 +93,7 @@ var Maze = React.createClass({
 		var imgd = ctx.getImageData(x, y, 15, 15);
 		var pix = imgd.data;
 		for (var i = 0; n = pix.length, i < n; i += 4) {
-			if (pix[i] == 0) {
-				return true
-			}
+			if (pix[i] == 0) return true
 		}
 	},
 
