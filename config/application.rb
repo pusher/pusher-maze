@@ -16,7 +16,7 @@ Bundler.require(*Rails.groups)
 module PusherMaze
   class Application < Rails::Application
 
-    config.browserify_rails.commandline_options = ["-t reactify testing.js"]
+    # config.browserify_rails.commandline_options = ["-t reactify testing.js", "--fast"]
 
 
     # Settings in config/environments/* take precedence over those specified here.

@@ -9,8 +9,6 @@ var Layer = ReactKinetic.Layer;
 var KImage = ReactKinetic.Image;
 var Rect = ReactKinetic.Rect;
 
-var Square = require('./square');
-
 var MazeImg = new Image();
 MazeImg.src = "assets/mazeone1000.gif"
 
@@ -30,7 +28,9 @@ var Maze = React.createClass({
 	componentDidMount: function() {
 
 		this.tiltChannel.bind('client-new-player', function(user){
-			this.setState({squares: this.state.squares.concat({x: 0, y: 0, dx: 15, dy:15, colour: user.colour})})
+			var existingSquares = this.state.squares
+			var square = {x: 0, y: 0, dx: 10, dy:10, colour: user.colour, height: 10, width: 10}
+			this.setState({squares: existingSquares.concat(square)})
 		}, this);
 
 		this.tiltChannel.bind('client-tilt', function(user){
@@ -43,7 +43,7 @@ var Maze = React.createClass({
 
 	},
 
-	componentWillUnmount: function(nextProps, nextState) {
+	componentWillUnmount: function() {
 		this.pusher.disconnect()
 	},
 
@@ -58,6 +58,7 @@ var Maze = React.createClass({
 		var squares = this.state.squares;
 		var square = _.findWhere(squares, {colour: colour})
 		var modSquares = _.without(squares, square);
+
 		var previousX = square.x
 		var previousY = square.y
 
@@ -84,13 +85,16 @@ var Maze = React.createClass({
 				break;
 		}
 
-		if (this.checkCollision(square.x, square.y)){square.x = previousX ; square.y = previousY}
+		if (this.checkCollision(square)){
+			square.x = previousX;
+			square.y = previousY;
+		}
 		this.setState({squares: modSquares.concat(square)})
 	},
 
-	checkCollision: function(x, y){
+	checkCollision: function(square){
 		var ctx = this.getDOMNode().firstChild.firstChild.firstChild.getContext('2d')
-		var imgd = ctx.getImageData(x, y, 15, 15);
+		var imgd = ctx.getImageData(square.x, square.y, square.width, square.height);
 		var pix = imgd.data;
 		for (var i = 0; n = pix.length, i < n; i += 4) {
 			if (pix[i] == 0) return true
@@ -108,12 +112,10 @@ var Maze = React.createClass({
 						y={square.y} 
 						fill={square.colour} 
 						stroke={square.colour} 
-						height="15"
-						width="15" />
+						height={square.height}
+						width={square.width} />
 			);
 		});
-
-
 
 		return (
 			<Stage
@@ -125,8 +127,10 @@ var Maze = React.createClass({
 				<Layer>
     				  <KImage x="0" y="0"
 			              image={MazeImg}
-			              width="1000" height="1000"/>
+			              width={this.WIDTH} height={this.HEIGHT}/>
+
 		              {squares}
+
 				</Layer>
 			</Stage>
 

@@ -31,7 +31,7 @@ gem 'angularjs-rails'
 gem 'bootstrap-sass'
 gem 'underscore-rails'
 
-gem 'browserify-rails', "~> 0.7"
+# gem 'browserify-rails', "~> 0.7"
 
 
 group :production do
