@@ -9,6 +9,8 @@ var Layer = ReactKinetic.Layer;
 var KImage = ReactKinetic.Image;
 var Rect = ReactKinetic.Rect;
 
+var MazeTravel = require('./MazeTravel');
+
 var MazeImg = new Image();
 MazeImg.src = "assets/mazeone1000.gif"
 
@@ -21,8 +23,10 @@ var Maze = React.createClass({
 	},
 
 	componentWillMount: function() {
-		this.pusher = new Pusher("77f6df16945f47c63a1f")
-		this.tiltChannel = this.pusher.subscribe("presence-tilt-channel")	
+		this.pusher = new Pusher("77f6df16945f47c63a1f");
+		this.tiltChannel = this.pusher.subscribe("presence-tilt-channel");
+
+		_.extend(this, MazeTravel);
 	},
 
 	componentDidMount: function() {
@@ -30,15 +34,18 @@ var Maze = React.createClass({
 		this.tiltChannel.bind('client-new-player', function(user){
 			var existingSquares = this.state.squares
 			var square = {x: 0, y: 0, dx: 10, dy:10, colour: user.colour, height: 10, width: 10}
-			this.setState({squares: existingSquares.concat(square)})
+			var updatedSquares = existingSquares.concat(square)
+			this.setState({squares: updatedSquares})
 		}, this);
 
 		this.tiltChannel.bind('client-tilt', function(user){
-			this.moveSquare(user.colour, user.tilt)
+			var updatedSquares = this.moveSquare(user);
+			this.setState({squares: updatedSquares});
 		}, this);
 
 		this.tiltChannel.bind('pusher:member_removed', function(user){
-			this.removeSquare(user.id)
+			var updatedSquares = this.removeSquare(user)
+			this.setState({squares: updatedSquares})
 		}, this);
 
 	},
@@ -47,58 +54,10 @@ var Maze = React.createClass({
 		this.pusher.disconnect()
 	},
 
-	removeSquare: function(colour){
+	removeSquare: function(user){
 		var squares = this.state.squares
-		var square = _.findWhere(squares, {colour: colour})
-		var modSquares = _.without(squares, square);
-		this.setState({squares: modSquares})
-	},
-
-	moveSquare: function(colour, direction){
-		var squares = this.state.squares;
-		var square = _.findWhere(squares, {colour: colour})
-		var modSquares = _.without(squares, square);
-
-		var previousX = square.x
-		var previousY = square.y
-
-		switch (direction){
-			case 'up':
-				if (square.y - square.dy > 0 ){ 
-					square.y -= square.dy
-				}
-				break;
-			case 'down':
-				if (square.y + square.dy < this.HEIGHT){
-					square.y += square.dy
-				}
-				break;
-			case 'left':
-				if (square.x - square.dx > 0 ) {
-					square.x -= square.dx
-				}
-				break;
-			case 'right':
-				if (square.x + square.dx < this.WIDTH) {
-					square.x += square.dx
-				}
-				break;
-		}
-
-		if (this.checkCollision(square)){
-			square.x = previousX;
-			square.y = previousY;
-		}
-		this.setState({squares: modSquares.concat(square)})
-	},
-
-	checkCollision: function(square){
-		var ctx = this.getDOMNode().firstChild.firstChild.firstChild.getContext('2d')
-		var imgd = ctx.getImageData(square.x, square.y, square.width, square.height);
-		var pix = imgd.data;
-		for (var i = 0; n = pix.length, i < n; i += 4) {
-			if (pix[i] == 0) return true
-		}
+		var square = _.findWhere(squares, {colour: user.id})
+		return _.without(squares, square);
 	},
 
 	render: function() {
