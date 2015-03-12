@@ -10,6 +10,7 @@ var KImage = ReactKinetic.Image;
 var Rect = ReactKinetic.Rect;
 
 var MazeTravel = require('./MazeTravel');
+var SquareCollection = require('./SquareCollection');
 
 var MazeImg = new Image();
 MazeImg.src = "assets/mazeone1000.gif"
@@ -26,7 +27,7 @@ var Maze = React.createClass({
 		this.pusher = new Pusher("77f6df16945f47c63a1f");
 		this.tiltChannel = this.pusher.subscribe("presence-tilt-channel");
 
-		_.extend(this, MazeTravel);
+		_.extend(this, MazeTravel, SquareCollection);
 	},
 
 	componentDidMount: function() {
@@ -50,18 +51,6 @@ var Maze = React.createClass({
 
 	componentWillUnmount: function() {
 		this.pusher.disconnect()
-	},
-
-	addSquare: function(user){
-		var existingSquares = this.state.squares
-		var square = {x: 475, y: 5, dx: 10, dy:10, colour: user.colour, height: this.props.squareSize, width: this.props.squareSize}
-		return existingSquares.concat(square)
-	},
-
-	removeSquare: function(user){
-		var squares = this.state.squares
-		var square = _.findWhere(squares, {colour: user.id})
-		return _.without(squares, square);
 	},
 
 	render: function() {
