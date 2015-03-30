@@ -35,7 +35,13 @@ angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pus
 
   # Whenver somebody has tilt their phone, move the square whose colour is assigned to that user
 
-  tiltChannel.bind "client-tilt", (user) -> Square.colour(user.colour).move user.tilt
+  tiltChannel.bind "client-tilt", (user) -> 
+    square = Square.colour(user.colour)
+    lastMove = square.lastMove
+    square.move user.tilt
+    if user.tilt isnt lastMove
+      console.log "Change in direction! #{square.colour} is moving #{user.tilt}"
+
 
 
   # --------- SETTING UP AND DRAWING ON THE CANVAS ------- 
@@ -96,13 +102,15 @@ angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pus
         if @collision()
           eval moveBack
           tiltChannel.trigger "client-collision", {colour: @colour}
+        else
+          @lastMove = direction
 
     collision: ->
       imgd = ctx.getImageData(@x, @y, 15, 15)
       pix = imgd.data
-      console.log pix
+      # console.log pix
       for i in [3..pix.length - 1 ] by 4  
-        console.log pix[i]
+        # console.log pix[i]
         # console.log(pix[i] < 200)
         return true if (pix[i] isnt 0)
 
