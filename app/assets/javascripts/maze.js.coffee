@@ -1,3 +1,18 @@
+`
+CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+  if (w < 2 * r) r = w / 2;
+  if (h < 2 * r) r = h / 2;
+  this.beginPath();
+  this.moveTo(x+r, y);
+  this.arcTo(x+w, y,   x+w, y+h, r);
+  this.arcTo(x+w, y+h, x,   y+h, r);
+  this.arcTo(x,   y+h, x,   y,   r);
+  this.arcTo(x,   y,   x+w, y,   r);
+  this.closePath();
+  return this;
+}
+`
+
 angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pusher) ->
   
   # --------------- PUSHER ------------- 
@@ -12,7 +27,7 @@ angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pus
 
   # Whenever there is a new player, create a new square
 
-  tiltChannel.bind "client-new-player", (user) -> new Square(475, 5, user.colour)
+  tiltChannel.bind "client-new-player", (user) -> new Square(390, 0, user.colour)
 
   # Whenever a member is removed, delete a square from the array of squares
 
@@ -27,17 +42,14 @@ angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pus
 
   WIDTH = HEIGHT = 1000
   img = new Image()
-  img.src = "assets/mazeone1000.gif"
+  img.src = "assets/plewmaze.png"
   canvas = document.getElementById("canvas")
   ctx = canvas.getContext("2d")
 
   rect = (x, y, w, h) ->
-    ctx.beginPath()
-    ctx.rect x, y, w, h
-    ctx.closePath() 
-    ctx.fill()
+    ctx.roundRect(x, y, w, h, 3).fill()
 
-  drawMaze = -> ctx.drawImage img, 0, 0
+  drawMaze = -> ctx.drawImage img, 0, 50
 
   clearCanvas = -> ctx.clearRect 0, 0, WIDTH, HEIGHT
 
@@ -88,7 +100,10 @@ angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pus
     collision: ->
       imgd = ctx.getImageData(@x, @y, 15, 15)
       pix = imgd.data
-      for i in [1...pix.length] by 4  
-        return true if pix[i] is 0
+      console.log pix
+      for i in [3..pix.length - 1 ] by 4  
+        console.log pix[i]
+        # console.log(pix[i] < 200)
+        return true if (pix[i] isnt 0)
 
 ])

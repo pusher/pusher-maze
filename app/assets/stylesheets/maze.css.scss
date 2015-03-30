@@ -1,3 +1,35 @@
 // Place all the styles related to the maze controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400);
+
+body {
+	background-image: url('background.png');
+	background-repeat: no-repeat;
+	background-size:cover;
+	height: 100vh;
+   	font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+    // color: #7a7a7a ;
+	// font-weight: 200 !important;
+}
+
+div.maze-container {
+	text-align:center;
+}
+
+h1.heading {
+	font-size: 60px;
+	color: #7a7a7a;
+	font-weight: 100;
+}
+
+h3.subheading {
+	font-size: 26px;
+	color: #7a7a7a;
+	font-weight: 100;
+}
+
+#canvas {
+	margin-top: 75px;
+}
