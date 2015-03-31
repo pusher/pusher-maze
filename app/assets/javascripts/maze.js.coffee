@@ -4,7 +4,7 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
   if (h < 2 * r) r = h / 2;
   this.beginPath();
   this.moveTo(x+r, y);
-  this.arcTo(x+w, y,   x+w, y+h, r);
+  this.arcTo(x+w, y,   x+w, y+h, r); 
   this.arcTo(x+w, y+h, x,   y+h, r);
   this.arcTo(x,   y+h, x,   y,   r);
   this.arcTo(x,   y,   x+w, y,   r);
@@ -15,6 +15,9 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
 
 angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pusher) ->
   
+  $scope.moveStream = [];
+
+
   # --------------- PUSHER ------------- 
 
   # -- Pusher Initialization
@@ -41,6 +44,7 @@ angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pus
     square.move user.tilt
     if user.tilt isnt lastMove
       console.log "Change in direction! #{square.colour} is moving #{user.tilt}"
+      $scope.moveStream.unshift({colour: user.colour, direction: user.tilt})
 
 
 
@@ -102,8 +106,9 @@ angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pus
         if @collision()
           eval moveBack
           tiltChannel.trigger "client-collision", {colour: @colour}
-        else
-          @lastMove = direction
+
+      @lastMove = direction
+
 
     collision: ->
       imgd = ctx.getImageData(@x, @y, 15, 15)

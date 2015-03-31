@@ -16,6 +16,7 @@
 //= require jquery_ujs
 //= require gyro.min
 //= require angular
+//= require angular-animate
 //= require pusher.min
 //= require pusher-angular.min
 

@@ -48,3 +48,28 @@ h3.subheading {
 	margin-top: 75px;
 	margin-left: 75px;
 }
+
+div.ticker {
+	top: 100px;
+	position: fixed;
+	right: 200px;
+	width: 300px;
+	height: 80%;
+	background-color: rgba(255, 255, 255, 0.2)
+}
+
+span.arrow.arrow-small {
+	margin-top: 25px;
+	font-size: 100px;
+	opacity: 0.8;
+}
+
+.animate-enter {
+	-webkit-transition: 3s linear all !important; /* Chrome */
+	transition: 3s linear all;
+	opacity: 1 !important;
+}
+ 
+// .animate-enter.animate-enter-active span {
+// 	opacity: 1;
+// }
