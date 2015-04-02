@@ -15,7 +15,8 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
 
 angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pusher) ->
   
-  $scope.moveStream = [];
+  $scope.triggerStream = [];
+  $scope.bindStream = [];
   
   renderInitialHtml = (inner)-> $scope.initialHtml = "<pre style='text-align: left'><code class='language-javascript'>" + inner +  "</code></pre>"
 
@@ -27,7 +28,7 @@ angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pus
   
   intialHtml = "var pusher = new Pusher('77f6df16945f47c63a1f');\n\nvar tiltChannel =  pusher.subscribe('presence-tilt-channel');\n\n"
 
-  initialTriggerHtml = ""
+  initialTriggerHtml = "tiltChannel.trigger('client-tilt', {colour: user.color, tilt: tilt.direction});"
 
   initialBindHtml = "tiltChannel.bind('client-tilt', function(user){\n\tvar square = Square.colour(user.colour);\n\tsquare.move(user.direction);\n});"
 
