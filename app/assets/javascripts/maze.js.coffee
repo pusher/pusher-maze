@@ -4,7 +4,7 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
   if (h < 2 * r) r = h / 2;
   this.beginPath();
   this.moveTo(x+r, y);
-  this.arcTo(x+w, y,   x+w, y+h, r);
+  this.arcTo(x+w, y,   x+w, y+h, r); 
   this.arcTo(x+w, y+h, x,   y+h, r);
   this.arcTo(x,   y+h, x,   y,   r);
   this.arcTo(x,   y,   x+w, y,   r);
@@ -15,6 +15,18 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
 
 angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pusher) ->
   
+  $scope.moveStream = [];
+
+  renderPrism = (inner)-> $scope.prismHtml = "<pre style='text-align: left'><code class='language-javascript'>" + inner +  "</code></pre>"
+
+  initialHtml = "var pusher = new Pusher('77f6df16945f47c63a1f');\n\nvar tiltChannel = pusher.subscribe('presence-tilt-channel');\n\ntiltChannel.bind('client-tilt', function(user){\n\tvar square = Square.colour(user.colour);\n\tsquare.move(user.direction);\n});"
+
+
+
+  renderPrism(Prism.highlight(initialHtml, Prism.languages.javascript))
+
+  # $scope.prismHtml = renderPrism("var pusher = new Pusher('77f6df16945f47c63a1f');\n\nvar tiltChannel = pusher.subscribe('presence-tilt-channel');\ntiltChannel.bind('client-tilt', function(user){\n\tvar square = Square.colour(user.colour);\n\tsquare.move(user.direction);\n});")
+
   # --------------- PUSHER ------------- 
 
   # -- Pusher Initialization
@@ -24,6 +36,14 @@ angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pus
   tiltChannel = pusher.subscribe("presence-tilt-channel")
 
   # -- Event listeners
+
+
+
+  prismHtml = ->
+    "var pusher = new Pusher('77f6df16945f47c63a1f');\n\nvar tiltChannel = pusher.subscribe('presence-tilt-channel');\n\ntiltChannel.bind('client-tilt', function(user){\n\tvar square = Square.colour('#{$scope.lastEvent.colour}');\n\tsquare.move('#{$scope.lastEvent.direction}');\n});"
+
+
+  $scope.lastEvent = {};
 
   # Whenever there is a new player, create a new square
 
@@ -35,7 +55,27 @@ angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pus
 
   # Whenver somebody has tilt their phone, move the square whose colour is assigned to that user
 
-  tiltChannel.bind "client-tilt", (user) -> Square.colour(user.colour).move user.tilt
+  tiltChannel.bind "client-tilt", (user) -> 
+    square = Square.colour(user.colour)
+    lastMove = square.lastMove
+    square.move user.tilt
+    if user.tilt isnt lastMove
+      console.log "Change in direction! #{square.colour} is moving #{user.tilt}"
+      # $scope.$apply(function)
+
+      $scope.$apply ->  $scope.lastEvent = {colour: user.colour, direction: user.tilt}
+      console.log($scope.lastEvent)
+
+      inner =  Prism.highlight(prismHtml(), Prism.languages.javascript);
+      renderPrism inner
+      # $scope.prismHtml = "<pre style='text-align: left'><code class='language-javascript'>" + inner +  "</code></pre>"
+      # console.log $scope.prismHtml
+      # console.log html
+      # Prism.highlightAll()
+      # code = document.getElementById('example-code')
+      # Prism.highlightElement(code)
+      # $scope.moveStream.unshift({colour: user.colour, direction: user.tilt})
+
 
 
   # --------- SETTING UP AND DRAWING ON THE CANVAS ------- 
@@ -97,12 +137,15 @@ angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pus
           eval moveBack
           tiltChannel.trigger "client-collision", {colour: @colour}
 
+      @lastMove = direction
+
+
     collision: ->
       imgd = ctx.getImageData(@x, @y, 15, 15)
       pix = imgd.data
-      console.log pix
+      # console.log pix
       for i in [3..pix.length - 1 ] by 4  
-        console.log pix[i]
+        # console.log pix[i]
         # console.log(pix[i] < 200)
         return true if (pix[i] isnt 0)
 

@@ -1,14 +1,27 @@
-<div id="qr-code-container">
-	<img src="assets/qrcode.png">
-</div>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.css">
+<link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js"></script> -->
 
-<div ng-controller="AppCtrl" class="maze-container">
+<div ng-controller="AppCtrl" >
+	
 
-	<h1 class="heading">PusherMaze</h1>
-	<h3 class="subheading">The most amazing maze you can play</h3>
 
-	<canvas id="canvas" width="1000" height="1050">
-	  <p> This text is displayed if your browser does not support HTML5 Canvas. </p>
-	</canvas>
+	<div id="qr-code-container">
+		<img src="assets/qrcode.png">
+	</div>
+
+	<div class="maze-container">
+
+		<h1 class="heading">PusherMaze</h1>
+		<h3 class="subheading">The most amazing maze you can play</h3>
+
+		<canvas id="canvas" width="1000" height="1050">
+		  <p> This text is displayed if your browser does not support HTML5 Canvas. </p>
+		</canvas>
+
+	</div>
+
+	<div id="ticker" ng-bind-html="prismHtml">
+	</div>
 
 </div>
