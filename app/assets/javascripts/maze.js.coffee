@@ -16,32 +16,42 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
 angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pusher) ->
   
   $scope.moveStream = [];
+  
+  renderInitialHtml = (inner)-> $scope.initialHtml = "<pre style='text-align: left'><code class='language-javascript'>" + inner +  "</code></pre>"
 
-  renderPrism = (inner)-> $scope.prismHtml = "<pre style='text-align: left'><code class='language-javascript'>" + inner +  "</code></pre>"
+  renderTriggerHtml = (inner)-> $scope.triggerHtml = "<pre style='text-align: left'><code class='language-javascript'>" + inner +  "</code></pre>"
+  
+  renderBindHtml = (inner)-> $scope.bindHtml = "<pre style='text-align: left'><code class='language-javascript'>" + inner +  "</code></pre>"
+  
+  # TODO: do not hard-code the key
+  
+  intialHtml = "var pusher = new Pusher('77f6df16945f47c63a1f');\n\nvar tiltChannel =  pusher.subscribe('presence-tilt-channel');\n\n"
 
-  initialHtml = "var pusher = new Pusher('77f6df16945f47c63a1f');\n\nvar tiltChannel = pusher.subscribe('presence-tilt-channel');\n\ntiltChannel.bind('client-tilt', function(user){\n\tvar square = Square.colour(user.colour);\n\tsquare.move(user.direction);\n});"
+  initialTriggerHtml = ""
 
+  initialBindHtml = "tiltChannel.bind('client-tilt', function(user){\n\tvar square = Square.colour(user.colour);\n\tsquare.move(user.direction);\n});"
 
+  renderInitialHtml(Prism.highlight(intialHtml, Prism.languages.javascript))
+  renderTriggerHtml(Prism.highlight(initialTriggerHtml, Prism.languages.javascript))
+  renderBindHtml(Prism.highlight(initialBindHtml, Prism.languages.javascript))
 
-  renderPrism(Prism.highlight(initialHtml, Prism.languages.javascript))
-
-  # $scope.prismHtml = renderPrism("var pusher = new Pusher('77f6df16945f47c63a1f');\n\nvar tiltChannel = pusher.subscribe('presence-tilt-channel');\ntiltChannel.bind('client-tilt', function(user){\n\tvar square = Square.colour(user.colour);\n\tsquare.move(user.direction);\n});")
+  # $scope.bindHtml = renderTriggerHtml("var pusher = new Pusher('77f6df16945f47c63a1f');\n\nvar tiltChannel = pusher.subscribe('presence-tilt-channel');\ntiltChannel.bind('client-tilt', function(user){\n\tvar square = Square.colour(user.colour);\n\tsquare.move(user.direction);\n});")
 
   # --------------- PUSHER ------------- 
 
   # -- Pusher Initialization
 
-  client = new Pusher("77f6df16945f47c63a1f")
+  client = new Pusher("0b2f668ffd067365b2c8")
   pusher = $pusher(client)
   tiltChannel = pusher.subscribe("presence-tilt-channel")
 
   # -- Event listeners
 
+  triggerHtml = ->
+    "tiltChannel.trigger('client-tilt', {colour: '#{$scope.lastEvent.colour}', tilt: '#{$scope.lastEvent.direction}'});"
 
-
-  prismHtml = ->
-    "var pusher = new Pusher('77f6df16945f47c63a1f');\n\nvar tiltChannel = pusher.subscribe('presence-tilt-channel');\n\ntiltChannel.bind('client-tilt', function(user){\n\tvar square = Square.colour('#{$scope.lastEvent.colour}');\n\tsquare.move('#{$scope.lastEvent.direction}');\n});"
-
+  bindHtml = ->
+    "tiltChannel.bind('client-tilt', function(user){\n\tvar square = Square.colour('#{$scope.lastEvent.colour}');\n\tsquare.move('#{$scope.lastEvent.direction}');\n});"
 
   $scope.lastEvent = {};
 
@@ -66,10 +76,14 @@ angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pus
       $scope.$apply ->  $scope.lastEvent = {colour: user.colour, direction: user.tilt}
       console.log($scope.lastEvent)
 
-      inner =  Prism.highlight(prismHtml(), Prism.languages.javascript);
-      renderPrism inner
-      # $scope.prismHtml = "<pre style='text-align: left'><code class='language-javascript'>" + inner +  "</code></pre>"
-      # console.log $scope.prismHtml
+      inner =  Prism.highlight(bindHtml(), Prism.languages.javascript);
+      renderBindHtml inner
+      
+      inner =  Prism.highlight(triggerHtml(), Prism.languages.javascript);
+      renderTriggerHtml inner
+      
+      # $scope.bindHtml = "<pre style='text-align: left'><code class='language-javascript'>" + inner +  "</code></pre>"
+      # console.log $scope.bindHtml
       # console.log html
       # Prism.highlightAll()
       # code = document.getElementById('example-code')
