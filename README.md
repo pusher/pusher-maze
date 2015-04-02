@@ -25,7 +25,13 @@ Classic Rails stuff:
 		
 Ensure [PostgreSQL](http://www.postgresql.org/)	is installed and running.
 
-Create your Pusher config. First [sign up for Pusher](https://pusher.com/signup) and take a note of your application's `app_id`, `key` and `secret`. Then:
+Setup your Pusher application:
+
+* [Sign up for Pusher](https://pusher.com/signup), if you don't already have an account
+* Create a new `pusher-maze` app and **ensure you have client events enabled**
+* Take a note of your application's `app_id`, `key` and `secret`.
+
+Then:
 
   $ touch config/secrets.yml
 	
