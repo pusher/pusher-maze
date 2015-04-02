@@ -42,7 +42,7 @@ angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pus
 
   # -- Pusher Initialization
 
-  client = new Pusher("0b2f668ffd067365b2c8")
+  client = new Pusher("77f6df16945f47c63a1f")
   pusher = $pusher(client)
   tiltChannel = pusher.subscribe("presence-tilt-channel")
 
