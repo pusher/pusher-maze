@@ -21,6 +21,24 @@ Classic Rails stuff:
 	$ git clone https://github.com/pusher/pusher-maze.git
     $ cd pusher-maze
     $ bundle
+		$ rake db:setup
+		
+Ensure [PostgreSQL](http://www.postgresql.org/)	is installed and running.
+
+Create your Pusher config. First [sign up for Pusher](https://pusher.com/signup) and take a note of your application's `app_id`, `key` and `secret`. Then:
+
+  $ touch config/secrets.yml
+	
+Open up `config/secrets.yml` and copy in the following with your app credentials.
+You can generate a `secret_key_base` using `rake secret`.
+
+```
+development:
+  secret_key_base: <GENERATED_SECRET>
+  pusher_app_id: <APP_ID>
+  pusher_app_key: <APP_KEY>
+  pusher_app_secret: <APP_SECRET>
+```
 
 Fire up your server.
 
