@@ -1,4 +1,4 @@
-angular.module("Maze", ["pusher-angular", "ngAnimate"]).controller "TiltCtrl", ["$scope", "$pusher", "$http", ($scope, $pusher, $http) ->
+angular.module("Maze", ["pusher-angular", "ngSanitize"]).controller "TiltCtrl", ["$scope", "$pusher", "$http", ($scope, $pusher, $http) ->
     
   # --------------- PUSHER ------------- 
   

@@ -10,13 +10,14 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require prism
 //= require underscore
 //= require jquery
 //= require bootstrap-sprockets
 //= require jquery_ujs
 //= require gyro.min
 //= require angular
-//= require angular-animate
+//= require angular-sanitize
 //= require pusher.min
 //= require pusher-angular.min
 

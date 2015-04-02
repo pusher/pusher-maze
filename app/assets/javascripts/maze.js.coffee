@@ -17,6 +17,15 @@ angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pus
   
   $scope.moveStream = [];
 
+  renderPrism = (inner)-> $scope.prismHtml = "<pre style='text-align: left'><code class='language-javascript'>" + inner +  "</code></pre>"
+
+  initialHtml = "var pusher = new Pusher('77f6df16945f47c63a1f');\n\nvar tiltChannel = pusher.subscribe('presence-tilt-channel');\n\ntiltChannel.bind('client-tilt', function(user){\n\tvar square = Square.colour(user.colour);\n\tsquare.move(user.direction);\n});"
+
+
+
+  renderPrism(Prism.highlight(initialHtml, Prism.languages.javascript))
+
+  # $scope.prismHtml = renderPrism("var pusher = new Pusher('77f6df16945f47c63a1f');\n\nvar tiltChannel = pusher.subscribe('presence-tilt-channel');\ntiltChannel.bind('client-tilt', function(user){\n\tvar square = Square.colour(user.colour);\n\tsquare.move(user.direction);\n});")
 
   # --------------- PUSHER ------------- 
 
@@ -27,6 +36,14 @@ angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pus
   tiltChannel = pusher.subscribe("presence-tilt-channel")
 
   # -- Event listeners
+
+
+
+  prismHtml = ->
+    "var pusher = new Pusher('77f6df16945f47c63a1f');\n\nvar tiltChannel = pusher.subscribe('presence-tilt-channel');\n\ntiltChannel.bind('client-tilt', function(user){\n\tvar square = Square.colour('#{$scope.lastEvent.colour}');\n\tsquare.move('#{$scope.lastEvent.direction}');\n});"
+
+
+  $scope.lastEvent = {};
 
   # Whenever there is a new player, create a new square
 
@@ -44,7 +61,20 @@ angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pus
     square.move user.tilt
     if user.tilt isnt lastMove
       console.log "Change in direction! #{square.colour} is moving #{user.tilt}"
-      $scope.moveStream.unshift({colour: user.colour, direction: user.tilt})
+      # $scope.$apply(function)
+
+      $scope.$apply ->  $scope.lastEvent = {colour: user.colour, direction: user.tilt}
+      console.log($scope.lastEvent)
+
+      inner =  Prism.highlight(prismHtml(), Prism.languages.javascript);
+      renderPrism inner
+      # $scope.prismHtml = "<pre style='text-align: left'><code class='language-javascript'>" + inner +  "</code></pre>"
+      # console.log $scope.prismHtml
+      # console.log html
+      # Prism.highlightAll()
+      # code = document.getElementById('example-code')
+      # Prism.highlightElement(code)
+      # $scope.moveStream.unshift({colour: user.colour, direction: user.tilt})
 
 
 
