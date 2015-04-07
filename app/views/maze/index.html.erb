@@ -21,12 +21,16 @@
 
 	</div>
 	
-	<div id="trigger_ticker">
+	<!-- <div id="trigger_ticker" ng-hide="hidden"> -->
+
+	<!-- </div> -->
+
+	<div id="bind_ticker" ng-hide="hidden">
+		<h3 class="subheading code-example text-center">Triggering Events</h3>
 		<div ng-bind-html="initialHtml"></div>
 		<div ng-bind-html="triggerHtml"></div>
-	</div>
-
-	<div id="bind_ticker">
+		<hr>
+		<h3 class="subheading code-example text-center">Listening For Events</h3>
 		<div ng-bind-html="initialHtml"></div>
 		<div ng-bind-html="bindHtml"></div>
 	</div>

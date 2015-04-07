@@ -14,6 +14,11 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
 `
 
 angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pusher) ->
+
+  $scope.hidden = false
+
+  document.onkeydown = (e) ->
+    if e.keyCode is 72 then $scope.$apply -> $scope.hidden = !$scope.hidden
   
   $scope.triggerStream = [];
   $scope.bindStream = [];
@@ -158,10 +163,7 @@ angular.module("Maze").controller("AppCtrl", ["$scope", "$pusher", ($scope, $pus
     collision: ->
       imgd = ctx.getImageData(@x, @y, 15, 15)
       pix = imgd.data
-      # console.log pix
       for i in [3..pix.length - 1 ] by 4  
-        # console.log pix[i]
-        # console.log(pix[i] < 200)
         return true if (pix[i] isnt 0)
 
 ])
